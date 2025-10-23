@@ -5,7 +5,7 @@ const descuentoController = require('../controllers/descuentos.controller');
 // 🔍 Obtener todos los descuentos
 router.get('/', descuentoController.obtenerDescuentos);
 
-// 🔍 Obtener descuentos por producto
+// 🔍 Obtener descuentos por producto basado en la referencia
 router.get('/producto/:id', descuentoController.obtenerDescuentosPorReferencia);
 
 // 🆕 Crear nuevo descuento
