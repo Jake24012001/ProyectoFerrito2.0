@@ -36,6 +36,8 @@ const carritoRoutes = require('./routes/carrito.route');
 const categoriasRoutes= require('./routes/categorias.route')
 const comentariosRoutes = require('./routes/comentarios.route');
 const descuentosRoutes= require('./routes/descuentos.route');
+const detallecarritoRoutes= require('./routes/detallecarrito.route');
+const detallefacturaRoutes= require('./routes/detallefactura.route');
 
 // Rutas activas
 app.use("/api/auditoria", auditoriaRoutes);
@@ -43,6 +45,8 @@ app.use("/api/carrito", carritoRoutes);
 app.use("/api/categorias", categoriasRoutes);
 app.use("/api/comentarios", comentariosRoutes);
 app.use("/api/descuentos", descuentosRoutes);
+app.use('/api/detallecarrito',detallecarritoRoutes);
+app.use('/api/detallefactura',detallefacturaRoutes);
 
 
 // 🌍 Servir frontend Angular (si ya tienes el build)
