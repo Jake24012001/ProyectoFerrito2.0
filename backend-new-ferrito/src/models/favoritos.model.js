@@ -10,18 +10,44 @@ async function ObtenerFavorito(){
     const { rows } = await pool.query(query);
     return rows;
 }
-
+// 🔍 Obtener favoritos por usuario
+async function obtenerFavoritoPorUsuario(usuario_id) {
+  const query = `
+    SELECT * FROM favoritos
+    WHERE usuario_id = $1
+    ORDER BY fecha_creacion DESC;
+  `;
+  const { rows } = await pool.query(query, [usuario_id]);
+  return rows;
+}
 //Crear Favorito
-async function CrearFavorito({id_favorito, usuario_id, producto_id,fecha_creacion, estado}){
+async function CrearFavorito({usuario_id, producto_id,fecha_creacion, estado}){
     const query =`
-    INSERT INTO favoritos (id_favorito, usuario_id, producto_id,fecha_creacion, estado)
+    INSERT INTO favoritos (usuario_id, producto_id,fecha_creacion, estado)
     VALUES ($1,$2,$3,$4,$5)
     RETURNING *;
     `;
-    const values = [id_favorito, usuario_id, producto_id,fecha_creacion, estado];
+    const values = [usuario_id, producto_id,fecha_creacion, estado];
     const { rows } = await pool.query(query, values);
     return rows[0];
     
+}
+//Modificar favoritos
+async function ModificarFavorito({
+  id_favorito, usuario_id, producto_id,fecha_creacion, estado
+}) {
+  const query = `
+    UPDATE favoritos
+    SET usuario_id = $1,
+        producto_id = $2,
+        fecha_creacion = $3,
+        estado = $4
+    WHERE id_favorito = $5
+    RETURNING *;
+  `;
+  const values = [id_favorito, usuario_id, producto_id,fecha_creacion, estado];
+  const { rows } = await pool.query(query, values);
+  return rows[0];
 }
 //Eliminar Favorito
 async function EliminarFavorito(id_favorito) {
@@ -37,6 +63,8 @@ async function EliminarFavorito(id_favorito) {
 
 module.exports = {
     ObtenerFavorito,
+    obtenerFavoritoPorUsuario,
     CrearFavorito,
+    ModificarFavorito,
     EliminarFavorito
 }
