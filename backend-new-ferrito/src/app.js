@@ -32,9 +32,13 @@ app.use(morgan("combined"));
 
 // 📦 Rutas importadas (solo auditoría por ahora)
 const auditoriaRoutes = require("./routes/auditoria.route");
+const carritoRoutes = require('./routes/carrito.route');
+const categoriasRoutes= require('./routes/categorias.route')
 
 // Rutas activas
 app.use("/api/auditoria", auditoriaRoutes);
+app.use("/api/carrito", carritoRoutes);
+app.use("/api/categorias", categoriasRoutes);
 
 // 🌍 Servir frontend Angular (si ya tienes el build)
 const frontendPath = path.join(
