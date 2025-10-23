@@ -1,32 +1,48 @@
 const pool = require("../config/db");
 
 //Obtener Factura
-async function ObtenerFactura(){
-    const query = `
+async function ObtenerFactura() {
+  const query = `
     SELECT * FROM factura
     ORDER BY fecha_creacion DESC;
     `;
-  
-    const { rows } = await pool.query(query);
-    return rows;
+
+  const { rows } = await pool.query(query);
+  return rows;
+}
+
+// 🔍 Obtener facturas por usuario
+async function obtenerFacturaPorUsuario(usuario_id) {
+  const query = `
+    SELECT * FROM factura
+    WHERE usuario_id = $1
+    ORDER BY fecha_creacion DESC;
+  `;
+  const { rows } = await pool.query(query, [usuario_id]);
+  return rows;
 }
 
 //Crear Factura
-async function CrearFactura({id_factura, usuario_id, fecha_creacion, total, estado}){
-    const query =`
-    INSERT INTO factura (id_factura,usuario_id,fecha_creacion,total,estado)
-    VALUES ($1,$2,$3,$4,$5)
+async function CrearFactura({ usuario_id, fecha_creacion, total, estado }) {
+  const query = `
+    INSERT INTO factura (usuario_id,fecha_creacion,total,estado)
+    VALUES ($1,$2,$3,$4)
     RETURNING *;
     `;
-    const values = [id_factura,usuario_id,fecha_creacion,total,estado];
-    const { rows } = await pool.query(query, values);
-    return rows[0];
-    
+  const values = [usuario_id, fecha_creacion, total, estado];
+  const { rows } = await pool.query(query, values);
+  return rows[0];
 }
 
 //Modificar Factura
-async function ModificarFactura({id_factura, usuario_id, fecha_creacion, total, estado}){
-const query = `
+async function ModificarFactura({
+  id_factura,
+  usuario_id,
+  fecha_creacion,
+  total,
+  estado,
+}) {
+  const query = `
     UPDATE factura
     SET usuario_id = $1,
         fecha_creacion = $2,
@@ -35,9 +51,9 @@ const query = `
     WHERE id_factura = $5
     RETURNING *;
   `;
-    const values = [id_factura, usuario_id, fecha_creacion, total, estado];
-    const { rows } = await pool.query(query, values);
-    return rows[0];
+  const values = [id_factura, usuario_id, fecha_creacion, total, estado];
+  const { rows } = await pool.query(query, values);
+  return rows[0];
 }
 
 //Eliminar Factura
@@ -51,10 +67,10 @@ async function EliminarFactura(id_factura) {
   return rows[0];
 }
 
-
 module.exports = {
-    ObtenerFactura,
-    CrearFactura,
-    ModificarFactura,
-    EliminarFactura
-}
+  ObtenerFactura,
+  obtenerFacturaPorUsuario,
+  CrearFactura,
+  ModificarFactura,
+  EliminarFactura,
+};

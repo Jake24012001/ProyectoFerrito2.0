@@ -38,6 +38,8 @@ const comentariosRoutes = require('./routes/comentarios.route');
 const descuentosRoutes= require('./routes/descuentos.route');
 const detallecarritoRoutes= require('./routes/detallecarrito.route');
 const detallefacturaRoutes= require('./routes/detallefactura.route');
+const enviosRoutes= require('./routes/envios.route');
+const facturaRoutes = require("./routes/factura.route");
 
 // Rutas activas
 app.use("/api/auditoria", auditoriaRoutes);
@@ -47,6 +49,9 @@ app.use("/api/comentarios", comentariosRoutes);
 app.use("/api/descuentos", descuentosRoutes);
 app.use('/api/detallecarrito',detallecarritoRoutes);
 app.use('/api/detallefactura',detallefacturaRoutes);
+app.use('/api/envios',enviosRoutes);
+app.use("/api/factura", facturaRoutes);
+
 
 
 // 🌍 Servir frontend Angular (si ya tienes el build)
