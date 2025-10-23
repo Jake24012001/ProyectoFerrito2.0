@@ -28,7 +28,7 @@ async function crearDescuento(req, res) {
   try {
     const {
       descripcion,
-      porcentaje_numerico,
+      porcentaje,
       aplicable_a,
       referencia_id,
       fecha_creacion,
@@ -37,7 +37,7 @@ async function crearDescuento(req, res) {
 
     const nuevoDescuento = await descuentoService.crearDescuento({
       descripcion,
-      porcentaje_numerico,
+      porcentaje,
       aplicable_a,
       referencia_id,
       fecha_creacion,
@@ -57,7 +57,7 @@ async function modificarDescuento(req, res) {
     const id_descuento = parseInt(req.params.id_descuento);
     const {
       descripcion,
-      porcentaje_numerico,
+      porcentaje,
       aplicable_a,
       referencia_id,
       fecha_creacion,
@@ -67,7 +67,7 @@ async function modificarDescuento(req, res) {
     const descuentoActualizado = await descuentoService.modificarDescuento({
       id_descuento,
       descripcion,
-      porcentaje_numerico,
+      porcentaje,
       aplicable_a,
       referencia_id,
       fecha_creacion,

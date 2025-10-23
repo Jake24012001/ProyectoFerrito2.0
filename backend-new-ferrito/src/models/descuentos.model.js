@@ -23,23 +23,23 @@ async function obtenerDescuentosPorReferencia(referencia_id) {
 }
 
 // 🆕 Crear nuevo descuento
-async function crearDescuento({ descripcion, porcentaje_numerico, aplicable_a, referencia_id, fecha_creacion, estado }) {
+async function crearDescuento({ descripcion, porcentaje, aplicable_a, referencia_id, fecha_creacion, estado }) {
   const query = `
-    INSERT INTO descuentos (descripcion, porcentaje_numerico, aplicable_a, referencia_id, fecha_creacion, estado)
+    INSERT INTO descuentos (descripcion, porcentaje, aplicable_a, referencia_id, fecha_creacion, estado)
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
   `;
-  const values = [descripcion, porcentaje_numerico, aplicable_a, referencia_id, fecha_creacion, estado];
+  const values = [descripcion, porcentaje, aplicable_a, referencia_id, fecha_creacion, estado];
   const { rows } = await pool.query(query, values);
   return rows[0];
 }
 
 // ✏️ Modificar descuento
-async function modificarDescuento({ id_descuento, descripcion, porcentaje_numerico, aplicable_a, referencia_id, fecha_creacion, estado }) {
+async function modificarDescuento({ id_descuento, descripcion, porcentaje, aplicable_a, referencia_id, fecha_creacion, estado }) {
   const query = `
     UPDATE descuentos
     SET descripcion = $1,
-        porcentaje_numerico = $2,
+        porcentaje = $2,
         aplicable_a = $3,
         referencia_id = $4,
         fecha_creacion = $5,
@@ -47,7 +47,7 @@ async function modificarDescuento({ id_descuento, descripcion, porcentaje_numeri
     WHERE id_descuento = $7
     RETURNING *;
   `;
-  const values = [descripcion, porcentaje_numerico, aplicable_a, referencia_id, fecha_creacion, estado, id_descuento];
+  const values = [descripcion, porcentaje, aplicable_a, referencia_id, fecha_creacion, estado, id_descuento];
   const { rows } = await pool.query(query, values);
   return rows[0];
 }
