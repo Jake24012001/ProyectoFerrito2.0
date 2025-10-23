@@ -14,7 +14,7 @@ const pool = new Pool({
     port: process.env.PG_PORT ? parseInt(process.env.PG_PORT, 10) : 5432,
     user: process.env.PG_USER || 'postgres',
     password: process.env.PG_PASSWORD || 'utm123',
-    database: process.env.PG_DATABASE || 'ferrito',
+    database: process.env.PG_DATABASE || 'ferritoNew',
 });
 
 // Manejo de errores inesperados en la conexión
