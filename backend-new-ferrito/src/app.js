@@ -35,13 +35,14 @@ const auditoriaRoutes = require("./routes/auditoria.route");
 const carritoRoutes = require('./routes/carrito.route');
 const categoriasRoutes= require('./routes/categorias.route')
 const comentariosRoutes = require('./routes/comentarios.route');
-
+const descuentosRoutes= require('./routes/descuentos.route');
 
 // Rutas activas
 app.use("/api/auditoria", auditoriaRoutes);
 app.use("/api/carrito", carritoRoutes);
 app.use("/api/categorias", categoriasRoutes);
 app.use("/api/comentarios", comentariosRoutes);
+app.use("/api/descuentos", descuentosRoutes);
 
 
 // 🌍 Servir frontend Angular (si ya tienes el build)
