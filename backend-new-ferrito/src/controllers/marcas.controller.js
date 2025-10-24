@@ -10,7 +10,17 @@ async function obtenermarcas(req, res) {
     res.status(500).json({ message: 'Error al obtener marcas' });
   }
 }
-
+// 🔍 Obtener Marcas por id
+async function obtenerMarcasId(req, res) {
+  try {
+    const id_marca = parseInt(req.params.id_marca);
+    const marcas = await marcaService.obtenermarcaId(id_marca);
+    res.status(200).json(marcas);
+  } catch (error) {
+    console.error('Error al obtener marcas por id:', error.message);
+    res.status(500).json({ message: 'Error al obtener marcas por id' });
+  }
+}
 // 🆕 Crear nuevo Historial
 async function crearmarcas(req, res) {
   try {
@@ -71,6 +81,7 @@ async function eliminarMarca(req, res) {
 
 module.exports = {
   obtenermarcas,
+  obtenerMarcasId,
   crearmarcas,
   modificarMarca,
   eliminarMarca
