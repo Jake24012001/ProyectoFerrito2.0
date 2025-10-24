@@ -24,7 +24,7 @@ async function Crearroles({ nombre_rol,fecha_creacion,estado}) {
 }
 
 //Modificar roles
-async function Modificarroles({id_rol,nombre_rol,fecha_creacion,estado
+async function Modificarroles({id_rolid_rol,nombre_rol,fecha_creacion,estado
 }) {
   const query = `
     UPDATE roles
