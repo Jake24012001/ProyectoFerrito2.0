@@ -50,6 +50,7 @@ const rolesRoutes=require('./routes/roles.route');
 const subcategoriasRoutes= require('./routes/subcategorias.route');
 const usuariosRoutes = require('./routes/usuarios.route');
 
+
 // Rutas activas
 app.use("/api/auditoria", auditoriaRoutes);
 app.use("/api/carrito", carritoRoutes);
@@ -69,7 +70,6 @@ app.use('/api/productos', productosRoutes);
 app.use('/api/roles', rolesRoutes);
 app.use('/api/subcategorias', subcategoriasRoutes);
 app.use('/api/usuarios', usuariosRoutes);
-
 
 
 
