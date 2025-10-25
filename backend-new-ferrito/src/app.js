@@ -40,6 +40,15 @@ const detallecarritoRoutes= require('./routes/detallecarrito.route');
 const detallefacturaRoutes= require('./routes/detallefactura.route');
 const enviosRoutes= require('./routes/envios.route');
 const facturaRoutes = require("./routes/factura.route");
+const favoritosRoutes = require('./routes/favoritos.route');
+const historialclientesRoutes= require('./routes/historialclientes.route');
+const historialproductosRoutes= require('./routes/historialproductos.route');
+const marcasRputes= require('./routes/marcas.route');
+const metodosdepagoRoutes=require('./routes/metodosdepago.route');
+const productosRoutes = require('./routes/productos.route');
+const rolesRoutes=require('./routes/roles.route');
+const subcategoriasRoutes= require('./routes/subcategorias.route');
+const usuariosRoutes = require('./routes/usuarios.route');
 
 // Rutas activas
 app.use("/api/auditoria", auditoriaRoutes);
@@ -51,6 +60,16 @@ app.use('/api/detallecarrito',detallecarritoRoutes);
 app.use('/api/detallefactura',detallefacturaRoutes);
 app.use('/api/envios',enviosRoutes);
 app.use("/api/factura", facturaRoutes);
+app.use('/api/favoritos', favoritosRoutes);
+app.use('/api/historialclientes', historialclientesRoutes);
+app.use('/api/historialproductos', historialproductosRoutes);
+app.use('/api/marcas', marcasRputes);
+app.use('/api/metodosdepago', metodosdepagoRoutes);
+app.use('/api/productos', productosRoutes);
+app.use('/api/roles', rolesRoutes);
+app.use('/api/subcategorias', subcategoriasRoutes);
+app.use('/api/usuarios', usuariosRoutes);
+
 
 
 
