@@ -83,7 +83,6 @@ async function vw_productos_activos() {
 async function vw_resumen_envios() {
   const query = `
     SELECT * FROM vw_resumen_envios
-     ORDER BY fecha_envios DESC;
   `;
   const { rows } = await pool.query(query);
   return rows;
