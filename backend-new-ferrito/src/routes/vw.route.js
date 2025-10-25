@@ -26,7 +26,7 @@ router.get('/historial_compras_usuario', vwController.obtenerHistorialComprasUsu
 // 🧩 Obtener productos activos
 router.get('/productos_activos', vwController.obtenerProductosActivos);
 
-// 🚚 Obtener resumen de envíos
+// 🚚 Obtener resumen de envíos (tiene problemas que no manda nada)
 router.get('/resumen_envios', vwController.obtenerResumenEnvios);
 
 // 👥 Obtener usuarios activos
