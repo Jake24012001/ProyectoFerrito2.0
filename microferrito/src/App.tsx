@@ -1,12 +1,12 @@
-import ferritoLogo from "./assets/logoferrito.jpg";
+import ferritoLogo from "./assets/logoferrito.png";
 import "./App.css";
 
 function App() {
   return (
     <>
       <div>
-        <img src={ferritoLogo} className="logo" alt="ferrito"/>
-        <h2>Ferrito 2.0</h2>
+        <h2>New</h2>
+        <img src={ferritoLogo} className="logo" alt="ferrito" />
         <h1>OBREROS TRABAJANDO</h1>
         <h3>Proximamente en Ecuador 2025</h3>
       </div>
