@@ -1,35 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import ferritoLogo from "./assets/logoferrito.jpg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <img src={ferritoLogo} className="logo" alt="ferrito"/>
+        <h2>Ferrito 2.0</h2>
+        <h1>OBREROS TRABAJANDO</h1>
+        <h3>Proximamente en Ecuador 2025</h3>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        veamos si esto sirve
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
