@@ -49,6 +49,7 @@ const productosRoutes = require('./routes/productos.route');
 const rolesRoutes=require('./routes/roles.route');
 const subcategoriasRoutes= require('./routes/subcategorias.route');
 const usuariosRoutes = require('./routes/usuarios.route');
+const vwRoutes=require('./routes/vw.route');
 
 
 // Rutas activas
@@ -70,8 +71,7 @@ app.use('/api/productos', productosRoutes);
 app.use('/api/roles', rolesRoutes);
 app.use('/api/subcategorias', subcategoriasRoutes);
 app.use('/api/usuarios', usuariosRoutes);
-
-
+app.use('/api/vw', vwRoutes);
 
 // 🌍 Servir frontend Angular (si ya tienes el build)
 const frontendPath = path.join(
