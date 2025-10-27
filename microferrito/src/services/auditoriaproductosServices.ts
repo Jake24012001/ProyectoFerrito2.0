@@ -1,38 +1,78 @@
-// src/services/auditoriaService.ts
+import axios from "axios";
+// Importamos la interfaz que definiste
 import { auditoriaproducto as AuditoriaProducto } from "../interfaces/auditoriaproductos";
 
-export async function getAuditorias(limit = 100): Promise<AuditoriaProducto[]> {
-  const res = await fetch(`/api/auditorias?limit=${limit}`);
-  if (!res.ok) throw new Error("Error al obtener auditorías");
-  return await res.json();
-}
+// La URL base que usa el Proxy de Vite
+const API_URL = "/api/auditorias/productos";
+// Asegúrate que esta ruta coincida con la ruta de tu backend (e.g., http://localhost:4200/auditorias/productos)
 
-export async function createAuditoria(
-  data: Omit<AuditoriaProducto, "id_auditoria">
-): Promise<AuditoriaProducto> {
-  const res = await fetch("/api/auditorias", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Error al registrar auditoría");
-  return await res.json();
-}
+/**
+ * 1. Obtener todos los registros de auditoría.
+ * @returns Una promesa que resuelve con un array de AuditoriaProducto.
+ */
+export const getAllAuditorias = async (): Promise<AuditoriaProducto[]> => {
+  try {
+    const response = await axios.get<AuditoriaProducto[]>(API_URL);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener auditorías:", error);
+    // Es buena práctica lanzar o devolver un valor conocido
+    throw new Error("No se pudo conectar con el servicio de auditoría.");
+  }
+};
 
-export async function updateAuditoria(
-  id: number,
-  data: Partial<AuditoriaProducto>
-): Promise<AuditoriaProducto> {
-  const res = await fetch(`/api/auditorias/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Error al actualizar auditoría");
-  return await res.json();
-}
+/**
+ * 2. Obtener un registro de auditoría por su ID.
+ * @param id_auditoria El ID del registro a buscar.
+ * @returns Una promesa que resuelve con el objeto AuditoriaProducto.
+ */
+export const getAuditoriaById = async (
+  id_auditoria: number
+): Promise<AuditoriaProducto> => {
+  try {
+    const response = await axios.get<AuditoriaProducto>(
+      `${API_URL}/${id_auditoria}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(`Error al obtener auditoría con ID ${id_auditoria}:`, error);
+    throw new Error(`No se encontró el registro con ID ${id_auditoria}.`);
+  }
+};
 
-export async function deleteAuditoria(id: number): Promise<void> {
-  const res = await fetch(`/api/auditorias/${id}`, { method: "DELETE" });
-  if (!res.ok) throw new Error("Error al eliminar auditoría");
-}
+/**
+ * 3. Crear un nuevo registro de auditoría.
+ * @param auditoriaData Los datos del nuevo registro (sin id_auditoria).
+ * @returns Una promesa que resuelve con el registro creado (con su ID).
+ */
+export const createAuditoria = async (
+  auditoriaData: Omit<AuditoriaProducto, "id_auditoria">
+): Promise<AuditoriaProducto> => {
+  try {
+    const response = await axios.post<AuditoriaProducto>(
+      API_URL,
+      auditoriaData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear auditoría:", error);
+    throw new Error("Fallo al crear el registro de auditoría.");
+  }
+};
+
+/**
+ * 4. Eliminar (o inactivar) un registro de auditoría.
+ * (En la práctica, muchos APIs solo cambian el estado a 'I' en lugar de borrar realmente).
+ * @param id_auditoria El ID del registro a eliminar.
+ */
+export const deleteAuditoria = async (id_auditoria: number): Promise<void> => {
+  try {
+    // Si tu API usa DELETE
+    await axios.delete(`${API_URL}/${id_auditoria}`);
+    // Si tu API usa PATCH/PUT para cambiar el estado (recomendado para auditoría):
+    // await axios.patch(`${API_URL}/${id_auditoria}/estado`, { estado: 'I' });
+  } catch (error) {
+    console.error(`Error al eliminar auditoría con ID ${id_auditoria}:`, error);
+    throw new Error(`Fallo al eliminar el registro con ID ${id_auditoria}.`);
+  }
+};
