@@ -9,23 +9,23 @@ function Factura() {
         
         // Datos del Cliente
         client: {
-            name: "Juan Pérez García",
+            name: "Jean Zambrano",
             ruc: "1712345678001",
-            address: "Av. Principal y Calle 2, Machala",
+            address: "Junin entre octava y novena norte, Machala",
         },
         
         // Items (Podrías reutilizar los datos del carrito)
         items: [
-            { description: "Martillo de Carpintero", quantity: 2, unitPrice: 15.50, total: 31.00 },
-            { description: "Juego de Destornilladores", quantity: 1, unitPrice: 45.99, total: 45.99 },
-            { description: "Lijadora Orbital", quantity: 1, unitPrice: 89.00, total: 89.00 },
+            { description: "Martillo de Carpintero", quantity: 2, unitPrice: 15, total: 30 },
+            { description: "Funda de Cemento", quantity: 1, unitPrice: 7.20, total: 7.20 },
+            { description: "Taladro", quantity: 1, unitPrice: 120.50, total: 120.50 },
         ],
         
         // Totales
-        subtotal: 165.99,
-        ivaRate: 0.12,
-        ivaAmount: 19.92,
-        total: 185.91,
+        subtotal: 157.70,
+        ivaRate: 0.14,
+        ivaAmount: 22.08,
+        total: 22.078,
     };
 
     return (
@@ -100,11 +100,11 @@ function Factura() {
                         <table className="table">
                             <tbody>
                                 <tr>
-                                    <td>Subtotal 0% y 12%:</td>
+                                    <td>Subtotal 0% y 14%:</td>
                                     <td className="text-end">${invoiceData.subtotal.toFixed(2)}</td>
                                 </tr>
                                 <tr>
-                                    <td>Impuesto (IVA 12%):</td>
+                                    <td>Impuesto (IVA 14%):</td>
                                     <td className="text-end">${invoiceData.ivaAmount.toFixed(2)}</td>
                                 </tr>
                                 <tr style={{ backgroundColor: '#e9f7ef', borderTop: `2px solid ${primaryColor}` }}>
