@@ -1,5 +1,4 @@
 // src/services/productoService.ts
-
 import axios from 'axios';
 import {productos as IProducto } from '../interfaces/productos'; // Asegúrate de que la ruta es correcta
 
