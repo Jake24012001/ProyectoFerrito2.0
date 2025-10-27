@@ -1,20 +1,19 @@
-// src/interfaces/IProducto.ts (o el nombre que elijas)
 export interface productos {
   // Identificadores y claves foráneas
-  id_producto: number; // integer (generalmente es la clave primaria)
-  marca_id: number;     // integer
-  categoria_id: number; // integer
-  subcategoria_id: number; // integer
+  id_producto: number; 
+  marca_id: number;     
+  categoria_id: number; 
+  subcategoria_id: number; 
 
   // Datos descriptivos
-  nombre: string;       // character varying(200)
+  nombre: string;    
   
   // Precios, medidas y valores
-  precio: number;       // numeric(12, 2)
-  valoracion: number;   // double precision (puede ser null, pero asumimos number para simplificar)
+  precio: number;       
+  valoracion: number;  
 
   // Metadatos
-  fecha_creacion: string; // timestamp without time zone. Usamos 'string' ya que el API devuelve texto (ISO 8601).
+  fecha_creacion: string; 
   estado: 'A' | 'I';    // character(1). Usamos un tipo literal 'A' (Activo) o 'I' (Inactivo).
   imagen_url: string;   // character varying(500)
 }
