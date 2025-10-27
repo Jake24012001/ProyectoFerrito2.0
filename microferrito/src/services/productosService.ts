@@ -3,7 +3,7 @@ import axios from 'axios';
 import {productos as IProducto } from '../interfaces/productos'; // Asegúrate de que la ruta es correcta
 
 // Base URL usando el proxy configurado en vite.config.ts (ej: /api/productos)
-const API_URL = '/productos'; 
+const API_URL = 'http://localhost:3001/api/productos'; 
 // Revisa si tu API usa '/productos' o si es otra ruta (ej: '/catalogo')
 
 // -------------------------------------------------------------------
