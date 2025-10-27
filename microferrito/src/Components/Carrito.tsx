@@ -175,6 +175,7 @@ function Carrito() {
                   color: "white",
                   fontWeight: "bold",
                 }}
+                onClick={() => navigate("/factura")} // Ejemplo: Navegar a la factura al proceder al pago
               >
                 Proceder al Pago
               </button>
