@@ -3,7 +3,7 @@ import axios from "axios";
 import { auditoriaproducto as AuditoriaProducto } from "../interfaces/auditoriaproductos";
 
 // La URL base que usa el Proxy de Vite
-const API_URL = "/api/auditorias/productos";
+const API_URL = "http://localhost:3001/api/auditoria";
 // Asegúrate que esta ruta coincida con la ruta de tu backend (e.g., http://localhost:4200/auditorias/productos)
 
 /**
