@@ -1,4 +1,4 @@
-export interface productos {
+export interface Producto {
   // Identificadores y claves foráneas
   id_producto: number; 
   marca_id: number;     
