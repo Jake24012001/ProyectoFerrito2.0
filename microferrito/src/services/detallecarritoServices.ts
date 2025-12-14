@@ -1,23 +1,15 @@
 import axios from 'axios';
+import { detallecarrito } from '../interfaces/detallecarrito';
 
-// Define la interfaz para un Detalle de Carrito
-export interface DetalleCarrito {
-  id_detalle_carrito: number;
-  id_carrito: number;
-  id_producto: number;
-  cantidad: number;
-  precio_unitario: number;
-}
 
 // URL base de la API para el detalle de carrito
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
-
 const DETALLE_CARRITO_ENDPOINT = `${API_URL}/detallecarrito`;
 
 // Obtener todos los detalles de carrito
-export const getAllDetalleCarrito = async (): Promise<DetalleCarrito[]> => {
+export const getAllDetalleCarrito = async (): Promise<detallecarrito[]> => {
   try {
-    const response = await axios.get<DetalleCarrito[]>(DETALLE_CARRITO_ENDPOINT);
+    const response = await axios.get<detallecarrito[]>(DETALLE_CARRITO_ENDPOINT);
     return response.data;
   } catch (error) {
     console.error('Error al obtener detalles de carrito:', error);
@@ -26,9 +18,9 @@ export const getAllDetalleCarrito = async (): Promise<DetalleCarrito[]> => {
 };
 
 // Obtener un detalle de carrito por ID
-export const getDetalleCarritoById = async (id: number): Promise<DetalleCarrito> => {
+export const getDetalleCarritoById = async (id: number): Promise<detallecarrito> => {
   try {
-    const response = await axios.get<DetalleCarrito>(`${DETALLE_CARRITO_ENDPOINT}/${id}`);
+    const response = await axios.get<detallecarrito>(`${DETALLE_CARRITO_ENDPOINT}/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error al obtener detalle de carrito con ID ${id}:`, error);
@@ -37,9 +29,9 @@ export const getDetalleCarritoById = async (id: number): Promise<DetalleCarrito>
 };
 
 // Crear un nuevo detalle de carrito
-export const createDetalleCarrito = async (detalle: Omit<DetalleCarrito, 'id_detalle_carrito'>): Promise<DetalleCarrito> => {
+export const createDetalleCarrito = async (detalle: Omit<detallecarrito, 'id_detalle_carrito'>): Promise<detallecarrito> => {
   try {
-    const response = await axios.post<DetalleCarrito>(DETALLE_CARRITO_ENDPOINT, detalle);
+    const response = await axios.post<detallecarrito>(DETALLE_CARRITO_ENDPOINT, detalle);
     return response.data;
   } catch (error) {
     console.error('Error al crear detalle de carrito:', error);
@@ -48,9 +40,9 @@ export const createDetalleCarrito = async (detalle: Omit<DetalleCarrito, 'id_det
 };
 
 // Actualizar un detalle de carrito existente
-export const updateDetalleCarrito = async (id: number, detalle: Partial<Omit<DetalleCarrito, 'id_detalle_carrito' | 'id_carrito' | 'id_producto'>>): Promise<DetalleCarrito> => {
+export const updateDetalleCarrito = async (id: number, detalle: Partial<Omit<detallecarrito, 'id_detalle_carrito' | 'id_carrito' | 'id_producto'>>): Promise<detallecarrito> => {
   try {
-    const response = await axios.put<DetalleCarrito>(`${DETALLE_CARRITO_ENDPOINT}/${id}`, detalle);
+    const response = await axios.put<detallecarrito>(`${DETALLE_CARRITO_ENDPOINT}/${id}`, detalle);
     return response.data;
   } catch (error) {
     console.error(`Error al actualizar detalle de carrito con ID ${id}:`, error);
