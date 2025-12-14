@@ -1,18 +1,12 @@
 import axios from 'axios';
-
-// Interfaz para Role
-export interface Role {
-  id_rol: number;
-  nombre_rol: string;
-  descripcion_rol?: string;
-}
+import { roles } from '../interfaces/roles';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 const ROLES_ENDPOINT = `${API_BASE_URL}/roles`;
 
-export const getAllRoles = async (): Promise<Role[]> => {
+export const getAllRoles = async (): Promise<roles[]> => {
   try {
-    const response = await axios.get<Role[]>(ROLES_ENDPOINT);
+    const response = await axios.get<roles[]>(ROLES_ENDPOINT);
     return response.data;
   } catch (error) {
     console.error('Error al obtener roles:', error);
@@ -20,9 +14,9 @@ export const getAllRoles = async (): Promise<Role[]> => {
   }
 };
 
-export const getRoleById = async (id: number): Promise<Role> => {
+export const getRoleById = async (id: number): Promise<roles> => {
   try {
-    const response = await axios.get<Role>(`${ROLES_ENDPOINT}/${id}`);
+    const response = await axios.get<roles>(`${ROLES_ENDPOINT}/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error al obtener rol con ID ${id}:`, error);
@@ -30,9 +24,9 @@ export const getRoleById = async (id: number): Promise<Role> => {
   }
 };
 
-export const createRole = async (role: Omit<Role, 'id_rol'>): Promise<Role> => {
+export const createRole = async (role: Omit<roles, 'id_rol'>): Promise<roles> => {
   try {
-    const response = await axios.post<Role>(ROLES_ENDPOINT, role);
+    const response = await axios.post<roles>(ROLES_ENDPOINT, role);
     return response.data;
   } catch (error) {
     console.error('Error al crear rol:', error);
@@ -40,9 +34,9 @@ export const createRole = async (role: Omit<Role, 'id_rol'>): Promise<Role> => {
   }
 };
 
-export const updateRole = async (id: number, role: Partial<Omit<Role, 'id_rol'>>): Promise<Role> => {
+export const updateRole = async (id: number, role: Partial<Omit<roles, 'id_rol'>>): Promise<roles> => {
   try {
-    const response = await axios.put<Role>(`${ROLES_ENDPOINT}/${id}`, role);
+    const response = await axios.put<roles>(`${ROLES_ENDPOINT}/${id}`, role);
     return response.data;
   } catch (error) {
     console.error(`Error al actualizar rol con ID ${id}:`, error);

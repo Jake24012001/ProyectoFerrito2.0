@@ -1,14 +1,5 @@
 import axios from 'axios';
-
-// Define la interfaz para un Detalle de Factura
-export interface DetalleFactura {
-  id_detalle_factura: number;
-  id_factura: number;
-  id_producto: number;
-  cantidad: number;
-  precio_unitario: number;
-  subtotal: number;
-}
+import { detallefactura } from '../interfaces/detallefactura';
 
 // URL base de la API para el detalle de factura
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
@@ -16,9 +7,9 @@ const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
 const DETALLE_FACTURA_ENDPOINT = `${API_URL}/detallefactura`;
 
 // Obtener todos los detalles de factura
-export const getAllDetalleFactura = async (): Promise<DetalleFactura[]> => {
+export const getAllDetalleFactura = async (): Promise<detallefactura[]> => {
   try {
-    const response = await axios.get<DetalleFactura[]>(DETALLE_FACTURA_ENDPOINT);
+    const response = await axios.get<detallefactura[]>(DETALLE_FACTURA_ENDPOINT);
     return response.data;
   } catch (error) {
     console.error('Error al obtener detalles de factura:', error);
@@ -27,9 +18,9 @@ export const getAllDetalleFactura = async (): Promise<DetalleFactura[]> => {
 };
 
 // Obtener un detalle de factura por ID
-export const getDetalleFacturaById = async (id: number): Promise<DetalleFactura> => {
+export const getDetalleFacturaById = async (id: number): Promise<detallefactura> => {
   try {
-    const response = await axios.get<DetalleFactura>(`${DETALLE_FACTURA_ENDPOINT}/${id}`);
+    const response = await axios.get<detallefactura>(`${DETALLE_FACTURA_ENDPOINT}/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error al obtener detalle de factura con ID ${id}:`, error);
@@ -38,9 +29,9 @@ export const getDetalleFacturaById = async (id: number): Promise<DetalleFactura>
 };
 
 // Crear un nuevo detalle de factura
-export const createDetalleFactura = async (detalle: Omit<DetalleFactura, 'id_detalle_factura'>): Promise<DetalleFactura> => {
+export const createDetalleFactura = async (detalle: Omit<detallefactura, 'id_detalle_factura'>): Promise<detallefactura> => {
   try {
-    const response = await axios.post<DetalleFactura>(DETALLE_FACTURA_ENDPOINT, detalle);
+    const response = await axios.post<detallefactura>(DETALLE_FACTURA_ENDPOINT, detalle);
     return response.data;
   } catch (error) {
     console.error('Error al crear detalle de factura:', error);
@@ -49,9 +40,9 @@ export const createDetalleFactura = async (detalle: Omit<DetalleFactura, 'id_det
 };
 
 // Actualizar un detalle de factura existente
-export const updateDetalleFactura = async (id: number, detalle: Partial<Omit<DetalleFactura, 'id_detalle_factura' | 'id_factura' | 'id_producto'>>): Promise<DetalleFactura> => {
+export const updateDetalleFactura = async (id: number, detalle: Partial<Omit<detallefactura, 'id_detalle_factura' | 'id_factura' | 'id_producto'>>): Promise<detallefactura> => {
   try {
-    const response = await axios.put<DetalleFactura>(`${DETALLE_FACTURA_ENDPOINT}/${id}`, detalle);
+    const response = await axios.put<detallefactura>(`${DETALLE_FACTURA_ENDPOINT}/${id}`, detalle);
     return response.data;
   } catch (error) {
     console.error(`Error al actualizar detalle de factura con ID ${id}:`, error);

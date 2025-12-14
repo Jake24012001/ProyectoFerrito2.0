@@ -1,11 +1,6 @@
 import axios from 'axios';
+import {marcas} from '../interfaces/marcas'
 
-// Define la interfaz para una Marca
-export interface Marca {
-  id_marca: number;
-  nombre_marca: string;
-  descripcion_marca?: string;
-}
 
 // URL base de la API para las marcas
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
@@ -13,9 +8,9 @@ const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
 const MARCAS_ENDPOINT = `${API_URL}/marcas`;
 
 // Obtener todas las marcas
-export const getAllMarcas = async (): Promise<Marca[]> => {
+export const getAllMarcas = async (): Promise<marcas[]> => {
   try {
-    const response = await axios.get<Marca[]>(MARCAS_ENDPOINT);
+    const response = await axios.get<marcas[]>(MARCAS_ENDPOINT);
     return response.data;
   } catch (error) {
     console.error('Error al obtener marcas:', error);
@@ -24,9 +19,9 @@ export const getAllMarcas = async (): Promise<Marca[]> => {
 };
 
 // Obtener una marca por ID
-export const getMarcaById = async (id: number): Promise<Marca> => {
+export const getMarcaById = async (id: number): Promise<marcas> => {
   try {
-    const response = await axios.get<Marca>(`${MARCAS_ENDPOINT}/${id}`);
+    const response = await axios.get<marcas>(`${MARCAS_ENDPOINT}/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error al obtener marca con ID ${id}:`, error);
@@ -35,9 +30,9 @@ export const getMarcaById = async (id: number): Promise<Marca> => {
 };
 
 // Crear una nueva marca
-export const createMarca = async (marca: Omit<Marca, 'id_marca'>): Promise<Marca> => {
+export const createMarca = async (marca: Omit<marcas, 'id_marca'>): Promise<marcas> => {
   try {
-    const response = await axios.post<Marca>(MARCAS_ENDPOINT, marca);
+    const response = await axios.post<marcas>(MARCAS_ENDPOINT, marca);
     return response.data;
   } catch (error) {
     console.error('Error al crear marca:', error);
@@ -46,9 +41,9 @@ export const createMarca = async (marca: Omit<Marca, 'id_marca'>): Promise<Marca
 };
 
 // Actualizar una marca existente
-export const updateMarca = async (id: number, marca: Partial<Marca>): Promise<Marca> => {
+export const updateMarca = async (id: number, marca: Partial<marcas>): Promise<marcas> => {
   try {
-    const response = await axios.put<Marca>(`${MARCAS_ENDPOINT}/${id}`, marca);
+    const response = await axios.put<marcas>(`${MARCAS_ENDPOINT}/${id}`, marca);
     return response.data;
   } catch (error) {
     console.error(`Error al actualizar marca con ID ${id}:`, error);
