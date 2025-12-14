@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Carrito from "./components/Carrito";
-import Factura from "./components/Factura";
-import AuditoriaNewFerrito from "./components/AuditoriaNewFerrito";
+import Navbar from "./Components/Navbar";
+import Factura from "./Components/Factura";
+import AuditoriaNewFerrito from "./Components/AuditoriaNewFerrito";
+import Carrito from "./Components/Carrito";
 function App() {
   return (
     <Router>
