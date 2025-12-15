@@ -2,19 +2,19 @@ const express = require('express');
 const router = express.Router();
 const MarcasController = require('../controllers/marcas.controller');
 
-// 🔍 Obtener todas las Marcas
+//  Obtener todas las Marcas
 router.get('/', MarcasController.obtenermarcas);
 
-// 🔍 Obtener Marcas por id
-router.get('/marcas/:id', MarcasController.obtenerMarcasId);
+//  Obtener Marcas por id
+router.get('/:id', MarcasController.obtenerMarcasId);
 
-// 🆕 Crear nueva Marcas
+//  Crear nueva Marcas
 router.post('/', MarcasController.crearmarcas);
 
-// ✏️ Modificar Marcas
+//  Modificar Marcas
 router.put('/:id_marca', MarcasController.modificarMarca);
 
-// ❌ Eliminar Marcas
+//  Eliminar Marcas
 router.delete('/:id_marca', MarcasController.eliminarMarca);
 
 module.exports = router;

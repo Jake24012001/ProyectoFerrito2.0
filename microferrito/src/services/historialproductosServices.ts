@@ -1,13 +1,6 @@
 import axios from 'axios';
+import {historialproductos} from '../interfaces/historialproductos'
 
-// Define la interfaz para un Historial de Producto
-export interface HistorialProducto {
-  id_historial_producto: number;
-  id_producto: number;
-  fecha_actividad: string;
-  tipo_actividad: string; // Ej: 'Vista', 'Añadido al carrito', 'Comprado'
-  descripcion_actividad?: string;
-}
 
 // URL base de la API para el historial de productos
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
@@ -15,9 +8,9 @@ const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
 const HISTORIAL_PRODUCTOS_ENDPOINT = `${API_URL}/historialproductos`;
 
 // Obtener todo el historial de productos
-export const getAllHistorialProductos = async (): Promise<HistorialProducto[]> => {
+export const getAllHistorialProductos = async (): Promise<historialproductos[]> => {
   try {
-    const response = await axios.get<HistorialProducto[]>(HISTORIAL_PRODUCTOS_ENDPOINT);
+    const response = await axios.get<historialproductos[]>(HISTORIAL_PRODUCTOS_ENDPOINT);
     return response.data;
   } catch (error) {
     console.error('Error al obtener historial de productos:', error);
@@ -26,9 +19,9 @@ export const getAllHistorialProductos = async (): Promise<HistorialProducto[]> =
 };
 
 // Obtener un historial de producto por ID
-export const getHistorialProductoById = async (id: number): Promise<HistorialProducto> => {
+export const getHistorialProductoById = async (id: number): Promise<historialproductos> => {
   try {
-    const response = await axios.get<HistorialProducto>(`${HISTORIAL_PRODUCTOS_ENDPOINT}/${id}`);
+    const response = await axios.get<historialproductos>(`${HISTORIAL_PRODUCTOS_ENDPOINT}/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error al obtener historial de producto con ID ${id}:`, error);
@@ -37,9 +30,9 @@ export const getHistorialProductoById = async (id: number): Promise<HistorialPro
 };
 
 // Crear un nuevo registro de historial de producto
-export const createHistorialProducto = async (historial: Omit<HistorialProducto, 'id_historial_producto' | 'fecha_actividad'>): Promise<HistorialProducto> => {
+export const createHistorialProducto = async (historial: Omit<historialproductos, 'id_historial_producto' | 'fecha_actividad'>): Promise<historialproductos> => {
   try {
-    const response = await axios.post<HistorialProducto>(HISTORIAL_PRODUCTOS_ENDPOINT, historial);
+    const response = await axios.post<historialproductos>(HISTORIAL_PRODUCTOS_ENDPOINT, historial);
     return response.data;
   } catch (error) {
     console.error('Error al crear historial de producto:', error);
@@ -48,9 +41,9 @@ export const createHistorialProducto = async (historial: Omit<HistorialProducto,
 };
 
 // Actualizar un registro de historial de producto existente (puede que no sea común actualizarlo completamente)
-export const updateHistorialProducto = async (id: number, historial: Partial<Omit<HistorialProducto, 'id_historial_producto' | 'id_producto' | 'fecha_actividad'>>): Promise<HistorialProducto> => {
+export const updateHistorialProducto = async (id: number, historial: Partial<Omit<historialproductos, 'id_historial_producto' | 'id_producto' | 'fecha_actividad'>>): Promise<historialproductos> => {
   try {
-    const response = await axios.put<HistorialProducto>(`${HISTORIAL_PRODUCTOS_ENDPOINT}/${id}`, historial);
+    const response = await axios.put<historialproductos>(`${HISTORIAL_PRODUCTOS_ENDPOINT}/${id}`, historial);
     return response.data;
   } catch (error) {
     console.error(`Error al actualizar historial de producto con ID ${id}:`, error);

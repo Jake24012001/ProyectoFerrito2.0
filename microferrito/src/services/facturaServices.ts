@@ -1,13 +1,5 @@
 import axios from 'axios';
-
-// Define la interfaz para una Factura
-export interface Factura {
-  id_factura: number;
-  id_usuario: number;
-  fecha_factura: string;
-  total: number;
-  estado_pago: string; // Por ejemplo: 'Pendiente', 'Pagado', 'Anulado'
-}
+import {factura} from '../interfaces/factura'
 
 // URL base de la API para las facturas
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
@@ -15,9 +7,9 @@ const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
 const FACTURAS_ENDPOINT = `${API_URL}/facturas`;
 
 // Obtener todas las facturas
-export const getAllFacturas = async (): Promise<Factura[]> => {
+export const getAllFacturas = async (): Promise<factura[]> => {
   try {
-    const response = await axios.get<Factura[]>(FACTURAS_ENDPOINT);
+    const response = await axios.get<factura[]>(FACTURAS_ENDPOINT);
     return response.data;
   } catch (error) {
     console.error('Error al obtener facturas:', error);
@@ -26,9 +18,9 @@ export const getAllFacturas = async (): Promise<Factura[]> => {
 };
 
 // Obtener una factura por ID
-export const getFacturaById = async (id: number): Promise<Factura> => {
+export const getFacturaById = async (id: number): Promise<factura> => {
   try {
-    const response = await axios.get<Factura>(`${FACTURAS_ENDPOINT}/${id}`);
+    const response = await axios.get<factura>(`${FACTURAS_ENDPOINT}/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error al obtener factura con ID ${id}:`, error);
@@ -37,9 +29,9 @@ export const getFacturaById = async (id: number): Promise<Factura> => {
 };
 
 // Crear una nueva factura
-export const createFactura = async (factura: Omit<Factura, 'id_factura' | 'fecha_factura'>): Promise<Factura> => {
+export const createFactura = async (factura: Omit<factura, 'id_factura' | 'fecha_factura'>): Promise<factura> => {
   try {
-    const response = await axios.post<Factura>(FACTURAS_ENDPOINT, factura);
+    const response = await axios.post<factura>(FACTURAS_ENDPOINT, factura);
     return response.data;
   } catch (error) {
     console.error('Error al crear factura:', error);
@@ -48,9 +40,9 @@ export const createFactura = async (factura: Omit<Factura, 'id_factura' | 'fecha
 };
 
 // Actualizar una factura existente
-export const updateFactura = async (id: number, factura: Partial<Omit<Factura, 'id_factura' | 'id_usuario' | 'fecha_factura'>>): Promise<Factura> => {
+export const updateFactura = async (id: number, factura: Partial<Omit<factura, 'id_factura' | 'id_usuario' | 'fecha_factura'>>): Promise<factura> => {
   try {
-    const response = await axios.put<Factura>(`${FACTURAS_ENDPOINT}/${id}`, factura);
+    const response = await axios.put<factura>(`${FACTURAS_ENDPOINT}/${id}`, factura);
     return response.data;
   } catch (error) {
     console.error(`Error al actualizar factura con ID ${id}:`, error);

@@ -53,9 +53,25 @@ async function eliminarCategoria(req, res) {
   }
 }
 
+async function obtenerCategoriaPorId(req, res) {
+  try {
+    const id_categoria = parseInt(req.params.id_categoria);
+    const categoria = await categoriaService.obtenerCategoriaPorId(id_categoria);
+    if (categoria) {
+      res.status(200).json(categoria);
+    } else {
+      res.status(404).json({ message: 'Categoría no encontrada' });
+    }
+  } catch (error) {
+    console.error('Error al obtener categoría por ID:', error.message);
+    res.status(500).json({ message: 'Error al obtener categoría por ID' });
+  }
+}
+
 module.exports = {
   obtenerCategorias,
   crearCategoria,
   modificarCategoria,
   eliminarCategoria,
+  obtenerCategoriaPorId,
 };
