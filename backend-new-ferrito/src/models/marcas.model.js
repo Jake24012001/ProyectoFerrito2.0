@@ -6,20 +6,15 @@ async function Obtenermarcas() {
     SELECT * FROM marcas
     ORDER BY fecha_creacion DESC;
     `;
-
   const { rows } = await pool.query(query);
   return rows;
 }
 
 // 🔍 Obtener marcas por id
 async function obtenermarcasId(id_marca) {
-  const query = `
-    SELECT * FROM marcas
-    WHERE id_marca = $1
-    ORDER BY fecha_creacion DESC;
-  `;
+  const query = `SELECT * FROM marcas WHERE id_marca = $1`;
   const { rows } = await pool.query(query, [id_marca]);
-  return rows;
+  return rows[0];
 }
 
 //Crear marcas

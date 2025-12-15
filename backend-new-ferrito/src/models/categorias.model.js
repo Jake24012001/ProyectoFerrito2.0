@@ -10,6 +10,16 @@ async function obtenerCategorias() {
   return rows;
 }
 
+// 🔍 Obtener una categoría por ID
+async function obtenerCategoriaPorId(id_categoria) {
+  const query = `
+    SELECT * FROM categorias
+    WHERE id_categoria = $1;
+  `;
+  const { rows } = await pool.query(query, [id_categoria]);
+  return rows[0];
+}
+
 async function crearCategoria({ nombre_categoria, fecha_creacion, estado }) {
   const query = `
     INSERT INTO categorias (nombre_categoria, fecha_creacion, estado)
@@ -47,6 +57,7 @@ async function eliminarCategoria(id_categoria) {
 
 module.exports = {
   obtenerCategorias,
+  obtenerCategoriaPorId,
   crearCategoria,
   modificarCategoria,
   eliminarCategoria,

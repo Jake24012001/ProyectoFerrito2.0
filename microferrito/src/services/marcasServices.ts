@@ -3,7 +3,7 @@ import {marcas} from '../interfaces/marcas'
 
 
 // URL base de la API para las marcas
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
 const MARCAS_ENDPOINT = `${API_URL}/marcas`;
 

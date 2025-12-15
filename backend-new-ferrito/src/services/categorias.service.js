@@ -16,9 +16,14 @@ async function eliminarCategoria(id_categoria) {
   return await categoriaModel.eliminarCategoria(id_categoria);
 }
 
+async function obtenerCategoriaPorId(id_categoria) {
+  return await categoriaModel.obtenerCategoriaPorId(id_categoria);
+}
+
 module.exports = {
   obtenerCategorias,
   crearCategoria,
   modificarCategoria,
   eliminarCategoria,
+  obtenerCategoriaPorId,
 };

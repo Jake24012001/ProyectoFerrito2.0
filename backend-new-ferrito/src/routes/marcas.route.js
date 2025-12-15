@@ -6,7 +6,7 @@ const MarcasController = require('../controllers/marcas.controller');
 router.get('/', MarcasController.obtenermarcas);
 
 //  Obtener Marcas por id
-router.get('/marcas/:id', MarcasController.obtenerMarcasId);
+router.get('/:id', MarcasController.obtenerMarcasId);
 
 //  Crear nueva Marcas
 router.post('/', MarcasController.crearmarcas);
