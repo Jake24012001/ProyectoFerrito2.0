@@ -73,9 +73,39 @@ async function eliminarsubcategoria(req, res) {
   }
 }
 
+async function obtenerSubcategoriaPorId(req, res) {
+  // 1. Obtener el ID de los parámetros de la URL
+  // El ID viene como string, usamos parseInt para asegurar que sea un número
+  const id_subcategoria = parseInt(req.params.id_subcategoria); 
+  
+  // Validación básica
+  if (isNaN(id_subcategoria)) {
+    return res.status(400).json({ message: 'ID de subcategoría inválido' });
+  }
+
+  try {
+    // 2. Llamar al servicio
+    const subcategoria = await subcategoriasService.obtenerSubcategoriaPorId(id_subcategoria);
+
+    // 3. Evaluar el resultado
+    if (!subcategoria) {
+      // Si el modelo devuelve undefined, significa que no se encontró
+      return res.status(404).json({ message: `Subcategoría con ID ${id_subcategoria} no encontrada` });
+    }
+
+    // 4. Enviar la respuesta exitosa
+    res.status(200).json(subcategoria);
+  } catch (error) {
+    // 5. Manejo de errores internos del servidor o de la base de datos
+    console.error('Error al obtener subcategoría por ID:', error.message);
+    res.status(500).json({ message: 'Error interno del servidor al obtener la subcategoría' });
+  }
+}
+
 module.exports = {
   obtenersubcategorias,
   crearsubcategorias,
   modificarSubCategoria,
-  eliminarsubcategoria
+  eliminarsubcategoria,
+  obtenerSubcategoriaPorId
 };

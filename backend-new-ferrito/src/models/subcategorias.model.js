@@ -51,9 +51,20 @@ async function Eliminasubcategorias(id_subcategoria) {
   return rows[0];
 }
 
+// Obtener una subcategoría por ID
+async function obtenerSubcategoriaPorId(id_subcategoria) {
+  const query = `
+    SELECT * FROM subcategorias
+    WHERE id_subcategoria = $1;
+  `;
+  const { rows } = await pool.query(query, [id_subcategoria]);
+  return rows[0];
+}
+
 module.exports = {
   Obtenersubcategorias,
   Crearsubcategorias,
   Modificarsubcategorias,
   Eliminasubcategorias,
+  obtenerSubcategoriaPorId,
 };

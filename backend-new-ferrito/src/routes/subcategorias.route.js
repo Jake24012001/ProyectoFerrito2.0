@@ -14,4 +14,7 @@ router.put('/:id_subcategoria', SubCategoriaController.modificarSubCategoria);
 //  Eliminar subcategoria
 router.delete('/:id_subcategoria', SubCategoriaController.eliminarsubcategoria);
 
+//  Obtener subcategoria por ID
+router.get('/:id_subcategoria', SubCategoriaController.obtenerSubcategoriaPorId);
+
 module.exports = router;

@@ -33,7 +33,8 @@ async function crearproductos(req, res) {
         precio, valoracion,
         fecha_creacion,
         estado,
-        imagen_url
+        imagen_url,
+        stock
     } = req.body;
 
     const nuevoProducto= await productosService.crearproductos({
@@ -44,7 +45,8 @@ async function crearproductos(req, res) {
         precio, valoracion,
         fecha_creacion,
         estado,
-        imagen_url
+        imagen_url,
+        stock
     });
 
     res.status(201).json(nuevoProducto);
@@ -66,10 +68,12 @@ async function modificarProducto(req, res) {
         precio, valoracion,
         fecha_creacion,
         estado,
-        imagen_url
+        imagen_url,
+        stock
     } = req.body;
 
     const ProductoActualizada = await productosService.modificarproductos({
+        id_producto,
         nombre,
         marca_id,
         categoria_id,
@@ -77,7 +81,8 @@ async function modificarProducto(req, res) {
         precio, valoracion,
         fecha_creacion,
         estado,
-        imagen_url
+        imagen_url,
+        stock
     });
 
     res.status(200).json(ProductoActualizada);

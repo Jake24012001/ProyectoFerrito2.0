@@ -1,4 +1,4 @@
-const subcategoriasmodel = require('../models/subcategorias.model');
+const subcategoriasmodel = require("../models/subcategorias.model");
 
 // 🔍 Obtener todas las subcategorias
 async function obtenersubcategorias() {
@@ -19,9 +19,24 @@ async function eliminarsubcategorias(id_subcategoria) {
   return await subcategoriasmodel.Eliminasubcategorias(id_subcategoria);
 }
 
+/**
+ * Llama al modelo para obtener una subcategoría por su identificador.
+ * @param {number} id_subcategoria - ID de la subcategoría a buscar.
+ * @returns {Promise<Object|undefined>} La subcategoría o undefined si no existe.
+ */
+async function obtenerSubcategoriaPorId(id_subcategoria) {
+  // Aquí podrías incluir lógica adicional de negocio si fuera necesario
+
+  const subcategoria = await subcategoriasmodel.obtenerSubcategoriaPorId(
+    id_subcategoria
+  );
+  return subcategoria;
+}
+
 module.exports = {
   obtenersubcategorias,
   crearsubcategorias,
   modificarsubcategorias,
-  eliminarsubcategorias
+  eliminarsubcategorias,
+  obtenerSubcategoriaPorId
 };
