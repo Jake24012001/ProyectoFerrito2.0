@@ -22,6 +22,16 @@ async function obtenerproductosporCategoria(subcategoria_id) {
   return rows;
 }
 
+// 🔍 Obtener Producto por ID
+async function obtenerProductoporId(id_producto) {
+  const query = `
+    SELECT * FROM productos
+    WHERE id_producto = $1;
+  `;
+  const { rows } = await pool.query(query, [id_producto]);
+  return rows[0];
+}
+
 // Crear productos
 async function Crearproductos({
   nombre,
@@ -123,6 +133,7 @@ async function Eliminarproductos(id_producto) {
 module.exports = {
   Obtenerproductos,
   obtenerproductosporCategoria,
+  obtenerProductoporId,
   Crearproductos,
   Modificarproductos,
   Eliminarproductos,

@@ -22,6 +22,22 @@ async function obtenerProductoSubcategoria(req, res) {
   }
 }
 
+// 🔍 Obtener Producto por ID
+async function obtenerProductoPorId(req, res) {
+  try {
+    const id_producto = parseInt(req.params.id_producto);
+    const producto = await productosService.obtenerProductoPorId(id_producto);
+    if (producto) {
+      res.status(200).json(producto);
+    } else {
+      res.status(404).json({ message: 'Producto no encontrado' });
+    }
+  } catch (error) {
+    console.error('Error al obtener Producto por ID:', error.message);
+    res.status(500).json({ message: 'Error al obtener Producto por ID' });
+  }
+}
+
 // 🆕 Crear nuevo productos
 async function crearproductos(req, res) {
   try {
@@ -107,6 +123,7 @@ async function eliminarProducto(req, res) {
 module.exports = {
   obtenerproductos,
   obtenerProductoSubcategoria,
+  obtenerProductoPorId,
   crearproductos,
   modificarProducto,
   eliminarProducto

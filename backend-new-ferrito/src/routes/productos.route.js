@@ -8,6 +8,9 @@ router.get('/', ProductosController.obtenerproductos);
 //  Obtener  Producto por subcategoria
 router.get('/producto/:id', ProductosController.obtenerProductoSubcategoria);
 
+// Obtener Producto por ID
+router.get('/:id_producto', ProductosController.obtenerProductoPorId);
+
 //  Crear nuevo  Producto
 router.post('/', ProductosController.crearproductos);
 

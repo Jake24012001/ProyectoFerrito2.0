@@ -9,6 +9,12 @@ async function obtenerProductosSub(subcategoria_id) {
   return await productosmodel.obtenerproductosporCategoria(subcategoria_id);
 }
 
+// 🔍 Obtener Producto por ID
+async function obtenerProductoPorId(id_producto) {
+  return await productosmodel.obtenerProductoporId(id_producto);
+}
+
+
 // 🆕 Crear nueva productos
 async function crearproductos(data) {
   return await productosmodel.Crearproductos(data);
@@ -27,6 +33,7 @@ async function eliminarproductos(id_producto) {
 module.exports = {
   obtenerproductos,
   obtenerProductosSub,
+  obtenerProductoPorId,
   crearproductos,
   modificarproductos,
   eliminarproductos
