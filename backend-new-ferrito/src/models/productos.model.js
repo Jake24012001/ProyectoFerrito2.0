@@ -78,7 +78,6 @@ async function Modificarproductos({
   subcategoria_id,
   precio,
   valoracion,
-  fecha_creacion,
   estado,
   imagen_url,
   stock,
@@ -91,11 +90,10 @@ async function Modificarproductos({
         subcategoria_id = $4,
         precio = $5,
         valoracion = $6,
-        fecha_creacion = $7,
-        estado = $8,
-        imagen_url = $9,
-        stock = $10        /* <-- Stock es el décimo parámetro ($10) */
-    WHERE id_producto = $11  /* <-- El ID del producto debe ser el undécimo parámetro ($11) */
+        estado = $7,
+        imagen_url = $8,
+        stock = $9        /* <-- Stock es el décimo parámetro ($10) */
+    WHERE id_producto = $10  /* <-- El ID del producto debe ser el undécimo parámetro ($11) */
     RETURNING *;
   `;
 
@@ -108,7 +106,6 @@ async function Modificarproductos({
     subcategoria_id,
     precio,
     valoracion,
-    fecha_creacion,
     estado,
     imagen_url,
     stock,
