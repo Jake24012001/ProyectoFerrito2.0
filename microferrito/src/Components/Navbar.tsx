@@ -28,7 +28,7 @@ function Navbar() {
         {/* 2. Marca/Logo - Estilo del nombre de la app */}
         <Link
           className="navbar-brand d-flex align-items-center"
-          to="/"
+          to="http://localhost:4200/home"
           style={{ color: whiteText, fontWeight: "bold" }}
         >
           <FontAwesomeIcon icon={faHome} style={{ marginRight: "8px" }} />
