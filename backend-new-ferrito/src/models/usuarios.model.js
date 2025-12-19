@@ -22,19 +22,19 @@ async function obtenerPorUsuario(id_usuario) {
 }
 
 //Crear usuarios
-async function Crearusuarios({ cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado}) {
+async function Crearusuarios({ cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado,contraseña}) {
   const query = `
-    INSERT INTO usuarios (cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado)
-    VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+    INSERT INTO usuarios (cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado,contraseña)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
     RETURNING *;
     `;
-  const values = [cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado];
+  const values = [cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado,contraseña];
   const { rows } = await pool.query(query, values);
   return rows[0];
 }
 
 //Modificar usuarios
-async function Modificarusuarios({id_usuario,cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado
+async function Modificarusuarios({id_usuario,cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado,contraseña
 }) {
   const query = `
     UPDATE usuarios
@@ -45,11 +45,12 @@ async function Modificarusuarios({id_usuario,cedula,apellidos,nombres,telefono,e
         email = $5,
         rol_id= $6,
         fecha_creacion = $7,
-        estado= $8
-    WHERE id_usuario= $9
+        estado= $8,
+        contraseña = $9
+    WHERE id_usuario= $10
     RETURNING *;
   `;
-  const values = [id_usuario,cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado];
+  const values = [id_usuario,cedula,apellidos,nombres,telefono,email,rol_id,fecha_creacion,estado,contraseña];
   const { rows } = await pool.query(query, values);
   return rows[0];
 }

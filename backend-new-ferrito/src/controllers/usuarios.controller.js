@@ -32,7 +32,8 @@ async function crearusuario(req, res) {
         email,
         rol_id,
         fecha_creacion,
-        estado
+        estado,
+        contraseña
     } = req.body;
 
     const nuevousuario= await usuariosService.crearusuario({
@@ -43,7 +44,8 @@ async function crearusuario(req, res) {
         email,
         rol_id,
         fecha_creacion,
-        estado
+        estado,
+        contraseña
     });
 
     res.status(201).json(nuevousuario);
@@ -65,7 +67,8 @@ async function modificarUsuario(req, res) {
         email,
         rol_id,
         fecha_creacion,
-        estado
+        estado,
+        contraseña
     } = req.body;
 
     const usuarioActualizada = await usuariosService.modificarusuario({
@@ -77,7 +80,8 @@ async function modificarUsuario(req, res) {
         email,
         rol_id,
         fecha_creacion,
-        estado
+        estado,
+        contraseña
     });
 
     res.status(200).json(usuarioActualizada);

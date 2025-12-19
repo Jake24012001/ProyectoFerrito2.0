@@ -8,7 +8,7 @@ router.get('/', usuarioController.obtenerusuario);
 //  Obtener usuario por id
 router.get('/:id_usuario', usuarioController.obtenerUsuarioId);
 
-//  Crear nueva usuarios
+//  Crear nuevo usuarios
 router.post('/', usuarioController.crearusuario);
 
 //  Modificar usuario
