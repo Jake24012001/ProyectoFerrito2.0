@@ -25,7 +25,6 @@ async function obtenerUsuarioId(req, res) {
 async function crearusuario(req, res) {
   try {
     const {
-        cedula,
         apellidos,
         nombres,
         telefono,
@@ -33,11 +32,10 @@ async function crearusuario(req, res) {
         rol_id,
         fecha_creacion,
         estado,
-        contraseña
+        password
     } = req.body;
 
     const nuevousuario= await usuariosService.crearusuario({
-        cedula,
         apellidos,
         nombres,
         telefono,
@@ -45,7 +43,7 @@ async function crearusuario(req, res) {
         rol_id,
         fecha_creacion,
         estado,
-        contraseña
+        password
     });
 
     res.status(201).json(nuevousuario);
@@ -60,7 +58,6 @@ async function modificarUsuario(req, res) {
   try {
     const id_usuario = parseInt(req.params.id_usuario);
     const {
-        cedula,
         apellidos,
         nombres,
         telefono,
@@ -68,12 +65,11 @@ async function modificarUsuario(req, res) {
         rol_id,
         fecha_creacion,
         estado,
-        contraseña
+        password
     } = req.body;
 
     const usuarioActualizada = await usuariosService.modificarusuario({
         id_usuario ,
-        cedula,
         apellidos,
         nombres,
         telefono,
@@ -81,7 +77,7 @@ async function modificarUsuario(req, res) {
         rol_id,
         fecha_creacion,
         estado,
-        contraseña
+        password
     });
 
     res.status(200).json(usuarioActualizada);
