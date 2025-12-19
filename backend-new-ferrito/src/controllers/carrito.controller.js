@@ -62,7 +62,7 @@ async function modificarCarrito(req, res) {
   }
 }
 
-async function eliminarCarrito(req, re) {
+async function eliminarCarrito(req, res) {
   try {
     const id_carrito = parseInt(req.params.id_carrito);
     const resultado = await carritoService.eliminarCarrito(id_carrito);
