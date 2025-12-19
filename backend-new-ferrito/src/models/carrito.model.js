@@ -1,6 +1,6 @@
 const pool = require("../config/db");
 
-// 🔍 Obtener carritos por usuario
+// 🔍 Obtener carritos por usuario (usando ID)
 async function obtenerCarritoUsuario(usuario_id) {
   const query = `
     SELECT * FROM carrito
@@ -9,6 +9,19 @@ async function obtenerCarritoUsuario(usuario_id) {
   `;
   const { rows } = await pool.query(query, [usuario_id]);
   return rows;
+}
+
+// 📧 NUEVO: Obtener carrito activo por EMAIL del usuario
+async function obtenerCarritoPorEmail(email) {
+  const query = `
+    SELECT c.* FROM carrito c
+    JOIN usuarios u ON c.usuario_id = u.id_usuario
+    WHERE u.email = $1 
+      AND c.estado = 'A'
+    LIMIT 1;
+  `;
+  const { rows } = await pool.query(query, [email]);
+  return rows[0] || null;
 }
 
 // 🆕 Registrar nuevo carrito
@@ -43,7 +56,7 @@ async function modificarCarrito({
   return rows[0];
 }
 
-// ❌ Eliminar carrito (física o lógica)
+// ❌ Eliminar carrito
 async function eliminarCarrito(id_carrito) {
   const query = `
     DELETE FROM carrito
@@ -56,6 +69,7 @@ async function eliminarCarrito(id_carrito) {
 
 module.exports = {
   obtenerCarritoUsuario,
+  obtenerCarritoPorEmail, // Exportado correctamente
   registrarCarrito,
   modificarCarrito,
   eliminarCarrito,

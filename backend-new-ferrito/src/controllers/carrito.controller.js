@@ -13,6 +13,23 @@ async function obtenerCarritoUsuario(req, res) {
   }
 }
 
+async function obtenerCarritoPorEmail(req, res) {
+  try {
+    const email = req.params.email || req.query.email || req.body.email;
+    if (!email) {
+      return res.status(400).json({ error: 'Email es requerido' });
+    }
+    const carrito = await carritoService.obtenerCarritoPorEmail(email);
+    if (!carrito) {
+      return res.status(404).json({ error: 'Carrito activo no encontrado para email' });
+    }
+    res.status(200).json(carrito);
+  } catch (error) {
+    console.error('Error obtenerCarritoPorEmail:', error.message);
+    res.status(500).json({ error: 'Error interno al obtener el carrito' });
+  }
+}
+
 async function registrarCarrito(req, res) {
   try {
     const { usuario_id, fecha_creacion, estado } = req.body;
@@ -60,6 +77,7 @@ async function eliminarCarrito(req, re) {
 
 module.exports = {
   obtenerCarritoUsuario,
+  obtenerCarritoPorEmail,
   registrarCarrito,
   modificarCarrito,
   eliminarCarrito,
