@@ -1,7 +1,11 @@
-const carritoModel = require('../models/carrito.model');
+const carritoModel = require("../models/carrito.model");
 
 async function obtenerCarritoUsuario(usuario_id) {
   return await carritoModel.obtenerCarritoUsuario(usuario_id);
+}
+
+async function obtenerCarritoPorEmail(email) {
+  return await carritoModel.obtenerCarritoPorEmail(email);
 }
 
 async function registrarCarrito(data) {
@@ -18,6 +22,7 @@ async function eliminarCarrito(id_carrito) {
 
 module.exports = {
   obtenerCarritoUsuario,
+  obtenerCarritoPorEmail,
   registrarCarrito,
   modificarCarrito,
   eliminarCarrito,
