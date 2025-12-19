@@ -7,7 +7,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
 const DESCUENTOS_ENDPOINT = `${API_URL}/descuentos`;
 
 // Obtener todos los descuentos
-export const getAllDescuentos = async (): Promise<Descuento[]> => {
+export const getAllDescuentos = async (): Promise<descuentos[]> => {
   try {
     const response = await axios.get<descuentos[]>(DESCUENTOS_ENDPOINT);
     return response.data;

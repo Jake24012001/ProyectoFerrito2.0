@@ -41,7 +41,7 @@ export const createFavorito = async (favorito: Omit<favoritos, 'id_favorito' | '
 };
 
 // Actualizar un favorito existente (puede que no sea una operación común para favoritos)
-export const updateFavorito = async (id: number, favorito: Partial<Omit<favoritos, 'id_favorito' | 'id_usuario' | 'id_producto' | 'fecha_creacion'>>): Promise<Favorito> => {
+export const updateFavorito = async (id: number, favorito: Partial<Omit<favoritos, 'id_favorito' | 'id_usuario' | 'id_producto' | 'fecha_creacion'>>): Promise<favoritos> => {
   try {
     const response = await axios.put<favoritos>(`${FAVORITOS_ENDPOINT}/${id}`, favorito);
     return response.data;
