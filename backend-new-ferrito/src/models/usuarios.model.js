@@ -13,7 +13,7 @@ async function Obtenerusuarios() {
 // 🔍 Obtener usuarios id
 async function obtenerPorUsuario(id_usuario) {
   const query = `
-    SELECT * FROM factura
+    SELECT * FROM usuarios
     WHERE id_usuario = $1
     ORDER BY fecha_creacion DESC;
   `;

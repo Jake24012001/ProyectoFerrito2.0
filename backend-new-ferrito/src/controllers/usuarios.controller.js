@@ -103,5 +103,6 @@ module.exports = {
   obtenerusuario,
   crearusuario,
   modificarUsuario,
-  eliminarUsuario
+  eliminarUsuario,
+  obtenerUsuarioId
 };
