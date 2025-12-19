@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 // Se asume que el archivo de servicio se llama 'auditoriaproductosService'
 import { getAllAuditorias } from "../services/auditoriaproductosServices";
 import { auditoriaproducto as AuditoriaProducto } from "../interfaces/auditoriaproductos";
@@ -46,7 +46,7 @@ function AuditoriaNewFerrito() {
    */
   const getOperationBadge = (operation: string) => {
     const op = operation.toUpperCase();
-    let baseClasses =
+    const baseClasses =
       "px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full shadow-sm min-w-[70px] justify-center";
 
     switch (op) {

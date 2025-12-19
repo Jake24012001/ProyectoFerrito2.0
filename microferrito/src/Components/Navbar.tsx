@@ -3,13 +3,9 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
-  faTags,
-  faHeart,
-  faUserShield,
   faShoppingCart,
   faFileInvoice,
   faChartLine, // Usaremos este para Auditoria
-  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
