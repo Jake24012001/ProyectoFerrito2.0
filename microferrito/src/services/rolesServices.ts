@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { roles } from '../interfaces/roles';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 const ROLES_ENDPOINT = `${API_BASE_URL}/roles`;
 
 export const getAllRoles = async (): Promise<roles[]> => {

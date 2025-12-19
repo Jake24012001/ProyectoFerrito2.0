@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { subcategorias as Subcategoria } from '../interfaces/subcategorias';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 const SUBCATEGORIAS_ENDPOINT = `${API_BASE_URL}/subcategorias`;
 
 export const getAllSubcategorias = async (): Promise<Subcategoria[]> => {

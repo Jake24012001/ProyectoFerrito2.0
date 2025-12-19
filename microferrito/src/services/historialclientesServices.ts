@@ -2,7 +2,7 @@ import axios from 'axios';
 import {historialclientes} from '../interfaces/historialclientes'
 
 // URL base de la API para el historial de clientes
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
 const HISTORIAL_CLIENTES_ENDPOINT = `${API_URL}/historialclientes`;
 

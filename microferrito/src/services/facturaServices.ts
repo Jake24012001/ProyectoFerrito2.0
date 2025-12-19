@@ -2,7 +2,7 @@ import axios from 'axios';
 import {factura} from '../interfaces/factura'
 
 // URL base de la API para las facturas
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
 const FACTURAS_ENDPOINT = `${API_URL}/facturas`;
 

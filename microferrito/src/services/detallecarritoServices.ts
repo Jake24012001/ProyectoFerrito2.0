@@ -3,7 +3,7 @@ import { detallecarrito } from '../interfaces/detallecarrito';
 
 
 // URL base de la API para el detalle de carrito
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:30001/api';
 const DETALLE_CARRITO_ENDPOINT = `${API_URL}/detallecarrito`;
 
 // Obtener todos los detalles de carrito

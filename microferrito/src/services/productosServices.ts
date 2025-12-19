@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Producto } from '../interfaces/productos'; // Asegúrate de que la ruta es correcta
 
 // URL base de la API, obtenida de las variables de entorno de Vite
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 const PRODUCTOS_ENDPOINT = `${API_BASE_URL}/productos`;
 
 // -------------------------------------------------------------------

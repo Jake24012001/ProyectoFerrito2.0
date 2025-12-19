@@ -2,7 +2,7 @@ import axios from 'axios';
 import { detallefactura } from '../interfaces/detallefactura';
 
 // URL base de la API para el detalle de factura
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
 const DETALLE_FACTURA_ENDPOINT = `${API_URL}/detallefactura`;
 

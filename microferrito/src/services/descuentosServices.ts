@@ -2,12 +2,12 @@ import axios from 'axios';
 import {descuentos } from '../interfaces/descuentos'
 
 // URL base de la API para los descuentos
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
 const DESCUENTOS_ENDPOINT = `${API_URL}/descuentos`;
 
 // Obtener todos los descuentos
-export const getAllDescuentos = async (): Promise<Descuento[]> => {
+export const getAllDescuentos = async (): Promise<descuentos[]> => {
   try {
     const response = await axios.get<descuentos[]>(DESCUENTOS_ENDPOINT);
     return response.data;

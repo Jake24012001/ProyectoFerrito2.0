@@ -2,7 +2,7 @@ import axios from 'axios';
 import {metodospago} from '../interfaces/metodospago'
 
 // URL base de la API para los métodos de pago
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
 const METODOS_DE_PAGO_ENDPOINT = `${API_URL}/metodosdepago`;
 

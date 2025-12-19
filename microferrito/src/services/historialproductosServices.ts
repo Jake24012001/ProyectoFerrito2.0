@@ -3,7 +3,7 @@ import {historialproductos} from '../interfaces/historialproductos'
 
 
 // URL base de la API para el historial de productos
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
 const HISTORIAL_PRODUCTOS_ENDPOINT = `${API_URL}/historialproductos`;
 
