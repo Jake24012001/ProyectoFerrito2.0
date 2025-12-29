@@ -67,10 +67,49 @@ async function eliminarCarrito(id_carrito) {
   return rows[0];
 }
 
+// ✅ Cerrar carrito (actualizar estado a 'comprado')
+async function cerrarCarrito(id_carrito) {
+  const query = `
+    UPDATE carrito
+    SET estado = 'C' -- para comprado
+    WHERE id_carrito = $1
+    RETURNING *;
+  `;
+  const { rows } = await pool.query(query, [id_carrito]);
+  return rows[0];
+}
+
+// 📧🆕 Obtener o crear carrito activo por EMAIL del usuario
+async function obtenerOCrearCarritoPorEmail(email) {
+  // Intentar obtener carrito activo
+  let carrito = await obtenerCarritoPorEmail(email);
+  if (carrito) {
+    return carrito;
+  }
+
+  // Obtener usuario_id desde email
+  const usuario = await pool.query(
+    "SELECT id_usuario FROM usuarios WHERE email = $1",
+    [email]
+  );
+  const usuario_id = usuario.rows[0]?.id_usuario;
+
+  // Crear nuevo carrito
+  const nuevoCarrito = await registrarCarrito({
+    usuario_id,
+    fecha_creacion: new Date().toISOString(),
+    estado: 'A'
+  });
+
+  return nuevoCarrito;
+}
+
 module.exports = {
   obtenerCarritoUsuario,
   obtenerCarritoPorEmail, // Exportado correctamente
   registrarCarrito,
   modificarCarrito,
   eliminarCarrito,
+  cerrarCarrito,
+  obtenerOCrearCarritoPorEmail
 };

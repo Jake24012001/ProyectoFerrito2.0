@@ -99,10 +99,26 @@ async function eliminarUsuario(req, res) {
   }
 }
 
+// Obtener usuario por email
+async function obtenerUsuarioEmail(req, res) {
+  try {
+    const { email } = req.params;
+    const usuario = await usuariosService.obtenerUsuarioPorEmail(email);
+    if (!usuario) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    res.status(200).json(usuario);
+  } catch (error) {
+    console.error('Error al obtener usuario por email:', error.message);
+    res.status(500).json({ message: 'Error al obtener usuario por email' });
+  }
+}
+
 module.exports = {
   obtenerusuario,
   crearusuario,
   modificarUsuario,
   eliminarUsuario,
-  obtenerUsuarioId
+  obtenerUsuarioId,
+  obtenerUsuarioEmail
 };

@@ -20,10 +20,20 @@ async function eliminarCarrito(id_carrito) {
   return await carritoModel.eliminarCarrito(id_carrito);
 }
 
+async function cerrarCarrito(id_carrito) {
+  return await carritoModel.cerrarCarrito(id_carrito);
+}
+
+async function obtenerOCrearCarritoPorEmail(email) {
+  return await carritoModel.obtenerOCrearCarritoPorEmail(email);
+}
+
 module.exports = {
   obtenerCarritoUsuario,
   obtenerCarritoPorEmail,
   registrarCarrito,
   modificarCarrito,
   eliminarCarrito,
+  cerrarCarrito,
+  obtenerOCrearCarritoPorEmail
 };

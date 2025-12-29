@@ -65,10 +65,20 @@ async function Eliminausuarios(id_usuario) {
   return rows[0];
 }
 
+async function ObtenerUsuarioPorEmail(email) {
+  const query = `
+    SELECT * FROM usuarios
+    WHERE email = $1
+  `;
+  const { rows } = await pool.query(query, [email]);
+  return rows[0];
+}
+
 module.exports = {
   Obtenerusuarios,
   obtenerPorUsuario,
   Crearusuarios,
   Modificarusuarios,
   Eliminausuarios,
+  ObtenerUsuarioPorEmail
 };

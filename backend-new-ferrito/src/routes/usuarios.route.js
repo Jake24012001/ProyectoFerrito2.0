@@ -17,4 +17,7 @@ router.put('/:id_usuario', usuarioController.modificarUsuario);
 //  Eliminar usuario
 router.delete('/:id_usuario', usuarioController.eliminarUsuario);
 
+//  Obtener usuario por email
+router.get('/email/:email', usuarioController.obtenerUsuarioEmail);
+
 module.exports = router;

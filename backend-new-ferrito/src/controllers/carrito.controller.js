@@ -75,10 +75,45 @@ async function eliminarCarrito(req, res) {
   }
 }
 
+async function cerrarCarrito(req,res) {
+  try {
+    const id_carrito = parseInt(req.params.id_carrito);
+    if (isNaN(id_carrito)) {
+      return res.status(400).json({ message: "id_carrito inválido" });
+    }
+    const cerrado = await carritoService.cerrarCarrito(id_carrito);
+    if (!cerrado) {
+      return res.status(404).json({ message: "Carrito no encontrado o ya cerrado" });
+    }
+  } catch (error) {
+    console.error("Error al cerrar carrito:", error.message);
+    res.status(500).json({ message: "Error al cerrar carrito" });
+  }
+}
+
+async function obtenerOCrearCarritoPorEmail(req, res) {
+  try {
+    const email = req.params.email;
+    if (!email) {
+      return res.status(400).json({ error: 'Email es requerido' });
+    }
+    const carrito = await carritoService.obtenerOCrearCarritoPorEmail(email);
+    if (!carrito) {
+      return res.status(404).json({ error: 'No se pudo crear o encontrar el carrito' });
+    }
+    res.status(200).json(carrito);
+  } catch (error) {
+    console.error('Error obtenerOCrearCarritoPorEmail:', error.message);
+    res.status(500).json({ error: 'Error interno al obtener o crear el carrito' });
+  }
+}
+
 module.exports = {
   obtenerCarritoUsuario,
   obtenerCarritoPorEmail,
   registrarCarrito,
   modificarCarrito,
   eliminarCarrito,
+  cerrarCarrito,
+  obtenerOCrearCarritoPorEmail
 };

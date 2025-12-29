@@ -23,10 +23,16 @@ async function eliminarusuario(id_usuario) {
   return await usuariomodel.Eliminausuarios(id_usuario);
 }
 
+// 🔍 Obtener usuario por email
+async function obtenerUsuarioPorEmail(email) {
+  return await usuariomodel.ObtenerUsuarioPorEmail(email);
+}
+
 module.exports = {
   obtenerusuario,
   obtenerPorUsuario,
   crearusuario,
   modificarusuario,
-  eliminarusuario
+  eliminarusuario,
+  obtenerUsuarioPorEmail
 };
