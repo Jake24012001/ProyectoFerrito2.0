@@ -92,5 +92,6 @@ app.use((err, req, res, next) => {
   console.error("Error global:", err);
   res.status(500).json({ error: "Error interno del servidor" });
 });
+app.use('/api/carrito', require('./routes/carrito.routes'));
 
 module.exports = app;

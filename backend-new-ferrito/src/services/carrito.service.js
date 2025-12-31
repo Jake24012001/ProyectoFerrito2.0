@@ -27,6 +27,19 @@ async function cerrarCarrito(id_carrito) {
 async function obtenerOCrearCarritoPorEmail(email) {
   return await carritoModel.obtenerOCrearCarritoPorEmail(email);
 }
+async function obtenerOCrearCarrito(usuario_id, email) {
+  let carrito = await carritoModel.obtenerCarritoActivo(usuario_id);
+
+  if (!carrito) {
+    carrito = await carritoModel.crearCarrito(usuario_id, email);
+  }
+
+  return carrito;
+}
+async function agregarProductoCarrito(usuario_id, email, producto_id, cantidad) {
+  const carrito = await obtenerOCrearCarrito(usuario_id, email);
+  return await carritoModel.agregarProducto(carrito.id_carrito, producto_id, cantidad);
+}
 
 module.exports = {
   obtenerCarritoUsuario,
@@ -35,5 +48,9 @@ module.exports = {
   modificarCarrito,
   eliminarCarrito,
   cerrarCarrito,
-  obtenerOCrearCarritoPorEmail
+  obtenerOCrearCarritoPorEmail,
+  obtenerOCrearCarrito,
+  agregarProductoCarrito,
+  obtenerDetalleCarrito: carritoModel.obtenerDetalleCarrito,
+  actualizarCantidad: carritoModel.actualizarCantidad,
 };

@@ -23,4 +23,8 @@ router.patch('/cerrar/:id_carrito', carritoController.cerrarCarrito);
 // Obtener o crear carrito activo por email
 router.get('/orcrear/:email', carritoController.obtenerOCrearCarritoPorEmail);
 
+router.post('/agregar', controller.agregarProducto);
+router.put('/cantidad/:id_detalle', controller.actualizarCantidad);
+router.delete('/:id_detalle', controller.eliminarProducto);
+
 module.exports = router;

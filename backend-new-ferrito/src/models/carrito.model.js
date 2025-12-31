@@ -103,7 +103,46 @@ async function obtenerOCrearCarritoPorEmail(email) {
 
   return nuevoCarrito;
 }
+// ➕ Agregar producto al carrito
+async function agregarProducto(carrito_id, producto_id, cantidad) {
+  const query = `
+    INSERT INTO detallecarrito (carrito_id, producto_id, cantidad)
+    VALUES ($1, $2, $3)
+    RETURNING *;
+  `;
+  const { rows } = await pool.query(query, [carrito_id, producto_id, cantidad]);
+  return rows[0];
+}
+// 🔍 Obtener detalle del carrito (JOIN REAL)
+async function obtenerDetalleCarrito(carrito_id) {
+  const query = `
+    SELECT
+      dc.id_detalle,
+      dc.cantidad,
+      p.id_producto,
+      p.nombre,
+      p.precio,
+      p.imagen_url,
+      p.stock
+    FROM detallecarrito dc
+    JOIN productos p ON p.id_producto = dc.producto_id
+    WHERE dc.carrito_id = $1 AND dc.estado = 'A';
+  `;
+  const { rows } = await pool.query(query, [carrito_id]);
+  return rows;
+}
 
+// ✏️ Actualizar cantidad
+async function actualizarCantidad(id_detalle, cantidad) {
+  const query = `
+    UPDATE detallecarrito
+    SET cantidad = $1
+    WHERE id_detalle = $2
+    RETURNING *;
+  `;
+  const { rows } = await pool.query(query, [cantidad, id_detalle]);
+  return rows[0];
+}
 module.exports = {
   obtenerCarritoUsuario,
   obtenerCarritoPorEmail, // Exportado correctamente
@@ -111,5 +150,8 @@ module.exports = {
   modificarCarrito,
   eliminarCarrito,
   cerrarCarrito,
-  obtenerOCrearCarritoPorEmail
+  obtenerOCrearCarritoPorEmail,
+  actualizarCantidad,
+  obtenerDetalleCarrito,
+  agregarProducto
 };
