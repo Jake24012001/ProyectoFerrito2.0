@@ -51,7 +51,15 @@ async function ModificarFactura({
     WHERE id_factura = $5
     RETURNING *;
   `;
-  const values = [id_factura, usuario_id, fecha_creacion, total, estado];
+
+  const values = [
+    usuario_id,
+    fecha_creacion,
+    total,
+    estado,
+    id_factura,
+  ];
+
   const { rows } = await pool.query(query, values);
   return rows[0];
 }

@@ -1,13 +1,43 @@
 const carritoModel = require("../models/carrito.model");
 
+// ===============================
+// 🛒 OBTENER CARRITO POR USUARIO
+// ===============================
 async function obtenerCarritoUsuario(usuario_id) {
   return await carritoModel.obtenerCarritoUsuario(usuario_id);
 }
 
+// ===============================
+// 📧 OBTENER CARRITO POR EMAIL
+// ===============================
 async function obtenerCarritoPorEmail(email) {
   return await carritoModel.obtenerCarritoPorEmail(email);
 }
 
+// ===============================
+// 🆕 O CREAR CARRITO (FUNCIÓN CENTRAL)
+// ===============================
+async function obtenerOCrearCarrito(usuario_id, email) {
+  let carrito = null;
+
+  if (usuario_id) {
+    carrito = await carritoModel.obtenerCarritoActivo(usuario_id);
+  }
+
+  if (!carrito && email) {
+    carrito = await carritoModel.obtenerCarritoPorEmail(email);
+  }
+
+  if (!carrito) {
+    carrito = await carritoModel.crearCarrito(usuario_id, email);
+  }
+
+  return carrito;
+}
+
+// ===============================
+// 📝 CRUD CARRITO
+// ===============================
 async function registrarCarrito(data) {
   return await carritoModel.registrarCarrito(data);
 }
@@ -24,33 +54,46 @@ async function cerrarCarrito(id_carrito) {
   return await carritoModel.cerrarCarrito(id_carrito);
 }
 
-async function obtenerOCrearCarritoPorEmail(email) {
-  return await carritoModel.obtenerOCrearCarritoPorEmail(email);
-}
-async function obtenerOCrearCarrito(usuario_id, email) {
-  let carrito = await carritoModel.obtenerCarritoActivo(usuario_id);
-
-  if (!carrito) {
-    carrito = await carritoModel.crearCarrito(usuario_id, email);
-  }
-
-  return carrito;
-}
+// ===============================
+// 🛍️ PRODUCTOS DEL CARRITO
+// ===============================
 async function agregarProductoCarrito(usuario_id, email, producto_id, cantidad) {
   const carrito = await obtenerOCrearCarrito(usuario_id, email);
-  return await carritoModel.agregarProducto(carrito.id_carrito, producto_id, cantidad);
+
+  if (!carrito) {
+    throw new Error("No se pudo obtener o crear el carrito");
+  }
+
+  return await carritoModel.agregarProducto(
+    carrito.id_carrito,
+    producto_id,
+    cantidad
+  );
 }
 
+async function obtenerDetalleCarrito(id_carrito) {
+  return await carritoModel.obtenerDetalleCarrito(id_carrito);
+}
+
+async function actualizarCantidad(id_detalle, cantidad) {
+  return await carritoModel.actualizarCantidad(id_detalle, cantidad);
+}
+
+async function eliminarProducto(id_detalle) {
+  return await carritoModel.eliminarProducto(id_detalle);
+}
+
+// ===============================
 module.exports = {
   obtenerCarritoUsuario,
   obtenerCarritoPorEmail,
+  obtenerOCrearCarrito,
   registrarCarrito,
   modificarCarrito,
   eliminarCarrito,
   cerrarCarrito,
-  obtenerOCrearCarritoPorEmail,
-  obtenerOCrearCarrito,
   agregarProductoCarrito,
-  obtenerDetalleCarrito: carritoModel.obtenerDetalleCarrito,
-  actualizarCantidad: carritoModel.actualizarCantidad,
+  obtenerDetalleCarrito,
+  actualizarCantidad,
+  eliminarProducto
 };

@@ -1,26 +1,37 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { environments } from "../environments/environments";
+import { CarritoConDetalle } from "../interfaces/carritoConDetalle";
 
 const API_URL = `${environments.apiUrl}/carrito`;
 
-export function useCarrito(usuario_id: number, email: string) {
-  const [carrito, setCarrito] = useState<any>(null);
+export function useCarrito(email: string) {
+  const [carrito, setCarrito] = useState<CarritoConDetalle | null>(null);
   const [loading, setLoading] = useState(true);
 
   const cargarCarrito = async () => {
-    setLoading(true);
-    const res = await axios.get(`${API_URL}/orcrear/${email}`);
-    const detalle = await axios.get(
-      `${environments.apiUrl}/detallecarrito/carrito/${res.data.id_carrito}`
-    );
+    try {
+      setLoading(true);
 
-    setCarrito({
-      ...res.data,
-      detalle: detalle.data,
-    });
+      // 1️⃣ Obtener o crear carrito
+      const carritoRes = await axios.get(`${API_URL}/orcrear/${email}`);
 
-    setLoading(false);
+      // 2️⃣ Obtener detalle del carrito
+      const detalleRes = await axios.get(
+        `${environments.apiUrl}/detallecarrito/carrito/${carritoRes.data.id_carrito}`
+      );
+
+      // 3️⃣ Unir carrito + detalle
+      setCarrito({
+        ...carritoRes.data,
+        detalle: detalleRes.data,
+      });
+    } catch (error) {
+      console.error("Error cargando carrito:", error);
+      setCarrito(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

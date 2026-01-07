@@ -23,21 +23,13 @@ async function obtenerFacturasPorUsuario(req, res) {
   }
 }
 
-// 🆕 Crear nueva factura
 async function crearFactura(req, res) {
   try {
-    const {
-      usuario_id,
-      fecha_creacion,
-      total,
-      estado
-    } = req.body;
+    const { usuario_id, total } = req.body;
 
     const nuevaFactura = await facturaService.crearFactura({
       usuario_id,
-      fecha_creacion,
       total,
-      estado
     });
 
     res.status(201).json(nuevaFactura);
@@ -46,6 +38,7 @@ async function crearFactura(req, res) {
     res.status(500).json({ message: 'Error al crear factura' });
   }
 }
+
 
 // ✏️ Modificar factura
 async function modificarFactura(req, res) {

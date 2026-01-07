@@ -60,13 +60,12 @@ export const deleteFactura = async (id: number): Promise<void> => {
   }
 };
 export const procederPago = async (usuario_id: number, total: number) => {
-  const response = await axios.post(API_URL, {
+  const response = await axios.post(`${FACTURAS_ENDPOINT}`, {
     usuario_id,
-    fecha_creacion: new Date().toISOString(),
     total,
-    estado: "A",
   });
 
-  // 👇 AQUÍ YA VIENE id_factura DESDE BACKEND
-  return response.data;
+  return response.data; // 👈 id_factura viene aquí
 };
+
+  

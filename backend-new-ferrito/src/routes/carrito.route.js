@@ -2,30 +2,42 @@ const express = require("express");
 const router = express.Router();
 const carritoController = require("../controllers/carrito.controller");
 
-// Obtener carrito activo por email
-//router.get("/:email", carritoController.obtenerCarritoPorEmail);
-router.get("/email/:email", carritoController.obtenerCarritoPorEmail);
+// ===============================
+// 🛒 CARRITO
+// ===============================
 
-// Obtener carrito activo por id_usuario
+// Obtener carrito por usuario
 router.get("/usuario/:usuario_id", carritoController.obtenerCarritoUsuario);
 
-// Registrar nuevo carrito
+// Obtener carrito completo (con detalle)
+router.get("/detalle", carritoController.obtenerCarrito);
+
+// Obtener o crear carrito (EMAIL / USUARIO)
+router.post("/obtener-o-crear", carritoController.obtenerOCrearCarritoPorEmail);
+
+// Crear carrito manual (CRUD)
 router.post("/", carritoController.registrarCarrito);
 
-// Modificar carrito existente
+// Modificar carrito
 router.put("/:id_carrito", carritoController.modificarCarrito);
+
+// Cerrar carrito
+router.patch("/:id_carrito/cerrar", carritoController.cerrarCarrito);
 
 // Eliminar carrito
 router.delete("/:id_carrito", carritoController.eliminarCarrito);
 
-// Cerrar carrito (actualizar estado a comprado)
-router.patch("/cerrar/:id_carrito", carritoController.cerrarCarrito);
+// ===============================
+// 🛍️ PRODUCTOS DEL CARRITO
+// ===============================
 
-// Obtener o crear carrito activo por email
-router.get("/orcrear/:email", carritoController.obtenerOCrearCarritoPorEmail);
+// Agregar producto
+router.post("/producto", carritoController.agregarProducto);
 
-router.post("/agregar", carritoController.agregarProducto);
-router.put("/cantidad/:id_detalle", carritoController.actualizarCantidad);
-router.delete("/:id_detalle", carritoController.eliminarProducto);
+// Actualizar cantidad
+router.put("/producto/:id_detalle", carritoController.actualizarCantidad);
+
+// Eliminar producto
+router.delete("/producto/:id_detalle", carritoController.eliminarProducto);
 
 module.exports = router;
