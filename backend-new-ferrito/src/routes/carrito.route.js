@@ -3,7 +3,8 @@ const router = express.Router();
 const carritoController = require("../controllers/carrito.controller");
 
 // Obtener carrito activo por email
-router.get("/:email", carritoController.obtenerCarritoPorEmail);
+//router.get("/:email", carritoController.obtenerCarritoPorEmail);
+router.get("/email/:email", carritoController.obtenerCarritoPorEmail);
 
 // Obtener carrito activo por id_usuario
 router.get("/usuario/:usuario_id", carritoController.obtenerCarritoUsuario);

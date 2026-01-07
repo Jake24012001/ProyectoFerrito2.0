@@ -13,22 +13,20 @@ async function obtenerCarritoUsuario(req, res) {
   }
 }
 
-async function obtenerCarritoPorEmail(req, res) {
+const obtenerOCrearCarritoPorEmail = async (req, res) => {
   try {
-    const email = req.params.email || req.query.email || req.body.email;
-    if (!email) {
-      return res.status(400).json({ error: 'Email es requerido' });
-    }
-    const carrito = await carritoService.obtenerCarritoPorEmail(email);
-    if (!carrito) {
-      return res.status(404).json({ error: 'Carrito activo no encontrado para email' });
-    }
-    res.status(200).json(carrito);
+    const { email } = req.params;
+
+    // lógica obtener o crear carrito
+    const carrito = await carritoService.obtenerOCrearCarritoPorEmail(email);
+
+    res.json(carrito);
   } catch (error) {
-    console.error('Error obtenerCarritoPorEmail:', error.message);
-    res.status(500).json({ error: 'Error interno al obtener el carrito' });
+    console.error(error);
+    res.status(500).json({ mensaje: "Error al obtener o crear carrito" });
   }
-}
+};
+
 
 async function registrarCarrito(req, res) {
   try {
@@ -91,34 +89,31 @@ async function cerrarCarrito(req,res) {
   }
 }
 
-async function obtenerOCrearCarritoPorEmail(req, res) {
-  try {
-    const email = req.params.email;
-    if (!email) {
-      return res.status(400).json({ error: 'Email es requerido' });
-    }
-    const carrito = await carritoService.obtenerOCrearCarritoPorEmail(email);
-    if (!carrito) {
-      return res.status(404).json({ error: 'No se pudo crear o encontrar el carrito' });
-    }
-    res.status(200).json(carrito);
-  } catch (error) {
-    console.error('Error obtenerOCrearCarritoPorEmail:', error.message);
-    res.status(500).json({ error: 'Error interno al obtener o crear el carrito' });
-  }
-}
+async function obtenerOCrearCarrito(usuario_id, email) {
+  let carrito = await carritoModel.obtenerCarritoPorEmail(email);
 
+  if (!carrito) {
+    carrito = await carritoModel.registrarCarrito({
+      usuario_id,
+      fecha_creacion: new Date(),
+      estado: 'A'
+    });
+  }
+
+  return carrito;
+}
 async function obtenerCarrito(req, res) {
-  try {
-    const { usuario_id, email } = req.query;
-    const carrito = await carritoService.obtenerOCrearCarrito(usuario_id, email);
-    const detalle = await carritoService.obtenerDetalleCarrito(carrito.id_carrito);
+  const { usuario_id, email } = req.query;
 
-    res.json({ carrito, detalle });
-  } catch (error) {
-    res.status(500).json({ message: 'Error al obtener carrito' });
-  }
+  const carrito = await carritoService.obtenerOCrearCarrito(usuario_id, email);
+  const detalle = await carritoService.obtenerDetalleCarrito(carrito.id_carrito);
+
+  res.json({
+    ...carrito,
+    detalle
+  });
 }
+
 async function agregarProducto(req, res) {
   try {
     const { usuario_id, email, producto_id, cantidad } = req.body;
@@ -147,15 +142,27 @@ async function eliminarProducto(req, res) {
   await carritoService.eliminarProducto(id_detalle);
   res.json({ message: 'Producto eliminado del carrito' });
 }
+async function obtenerCarritoPorEmail(req, res) {
+  try {
+    const { email } = req.params;
+
+    res.json({
+      ok: true,
+      email,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 module.exports = {
   obtenerCarritoUsuario,
-  obtenerCarritoPorEmail,
   registrarCarrito,
   modificarCarrito,
   eliminarCarrito,
   cerrarCarrito,
-  obtenerOCrearCarritoPorEmail,
   obtenerCarrito,
+  obtenerOCrearCarritoPorEmail,
+  obtenerCarritoPorEmail,
   agregarProducto,
   actualizarCantidad,
   eliminarProducto
