@@ -28,11 +28,19 @@ async function obtenerUsuarioPorEmail(email) {
   return await usuariomodel.ObtenerUsuarioPorEmail(email);
 }
 
+// 🆕 Validar Código (Agrega esto)
+async function verificarUsuario(email, codigo) {
+  // Llama a la función del modelo que creamos en el paso anterior
+  return await usuariomodel.VerificarCodigoUsuario(email, codigo);
+}
+
 module.exports = {
   obtenerusuario,
   obtenerPorUsuario,
   crearusuario,
   modificarusuario,
   eliminarusuario,
-  obtenerUsuarioPorEmail
+  obtenerUsuarioPorEmail,
+  verificarUsuario // <--- ¡NO OLVIDES AGREGAR ESTO AQUÍ!
 };
+

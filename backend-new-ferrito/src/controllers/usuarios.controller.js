@@ -1,4 +1,6 @@
 const usuariosService = require('../services/usuarios.service');
+// 👇 1. IMPORTAMOS EL SERVICIO DE CORREO QUE CREASTE
+const { enviarCorreoVerificacion } = require('../services/email.service');
 
 // 🔍 Obtener todas las usuario
 async function obtenerusuario(req, res) {
@@ -10,6 +12,7 @@ async function obtenerusuario(req, res) {
     res.status(500).json({ message: 'Error al obtener usuario' });
   }
 }
+
 // 🔍 Obtener Usuario por id 
 async function obtenerUsuarioId(req, res) {
   try {
@@ -21,7 +24,8 @@ async function obtenerUsuarioId(req, res) {
     res.status(500).json({ message: 'Error al obtener usuario por id' });
   }
 }
-// 🆕 Crear nuevo usuario
+
+// 🆕 Crear nuevo usuario (MODIFICADO CON EL BOT DE CORREO 📧)
 async function crearusuario(req, res) {
   try {
     const {
@@ -35,18 +39,32 @@ async function crearusuario(req, res) {
         password
     } = req.body;
 
-    const nuevousuario= await usuariosService.crearusuario({
+    // 👇 2. GENERAMOS EL CÓDIGO DE 6 DÍGITOS
+    const codigoGenerado = Math.floor(100000 + Math.random() * 900000);
+
+    // Guardamos el usuario (Asegúrate de que tu servicio guarde el código en la BD)
+    const nuevousuario = await usuariosService.crearusuario({
         apellidos,
         nombres,
         telefono,
         email,
         rol_id,
         fecha_creacion,
-        estado,
-        password
+        estado, 
+        password,
+        codigo_verificacion: codigoGenerado // <--- ¡OJO! Agregamos esto para guardarlo en la BD
     });
 
-    res.status(201).json(nuevousuario);
+    // 👇 3. DISPARAMOS EL CORREO (EL BOT)
+    // No esperamos a que termine (await) si no queremos bloquear, 
+    // pero ponerle await asegura que sepas si falló.
+    await enviarCorreoVerificacion(email, codigoGenerado);
+
+    res.status(201).json({
+        message: "Usuario creado exitosamente. Se ha enviado un código de verificación.",
+        data: nuevousuario
+    });
+
   } catch (error) {
     console.error('Error al crear usuario:', error.message);
     res.status(500).json({ message: 'Error al crear usuario' });
@@ -114,11 +132,37 @@ async function obtenerUsuarioEmail(req, res) {
   }
 }
 
+
+// 🆕 Endpoint para verificar cuenta
+async function verificarCuenta(req, res) {
+  try {
+    const { email, codigo } = req.body;
+
+    // Llamamos al servicio
+    const usuarioVerificado = await usuariosService.verificarUsuario(email, codigo);
+
+    if (!usuarioVerificado) {
+      // Si devuelve vacío, es que el código estaba mal o el email no existe
+      return res.status(400).json({ message: 'Código incorrecto o expirado.' });
+    }
+
+    res.status(200).json({ 
+      message: '¡Cuenta verificada con éxito! Ya puedes iniciar sesión.',
+      usuario: usuarioVerificado
+    });
+
+  } catch (error) {
+    console.error('Error al verificar usuario:', error.message);
+    res.status(500).json({ message: 'Error interno al verificar código' });
+  }
+}
+
 module.exports = {
   obtenerusuario,
   crearusuario,
   modificarUsuario,
   eliminarUsuario,
   obtenerUsuarioId,
-  obtenerUsuarioEmail
+  obtenerUsuarioEmail,
+  verificarCuenta 
 };
