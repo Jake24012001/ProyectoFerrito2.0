@@ -7,31 +7,29 @@ const path = require("path");
 
 const app = express();
 
-// 🛡️ Seguridad
-app.use(helmet());
+// Seguridad
 app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      imgSrc: ["'self'", "http:", "https:", "data:"],
-      scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
-      styleSrc: [
-        "'self'",
-        "https://fonts.googleapis.com",
-        "https://cdn.jsdelivr.net",
-      ],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: ["'self'", "http:", "https:", "data:"],
+        scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+        styleSrc: ["'self'", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      },
     },
   })
 );
 
-app.use(cors({ origin: "*", optionsSuccessStatus: 200 }));
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:4200",
+  optionsSuccessStatus: 200
+}));
 app.use(express.json());
 app.use(morgan("combined"));
 
-// ===============================
-// 📦 IMPORTACIÓN DE RUTAS
-// ===============================
+// Rutas
 const auditoriaRoutes = require("./routes/auditoria.route");
 const carritoRoutes = require("./routes/carrito.route");
 const categoriasRoutes = require("./routes/categorias.route");
@@ -52,9 +50,6 @@ const subcategoriasRoutes = require("./routes/subcategorias.route");
 const usuariosRoutes = require("./routes/usuarios.route");
 const vwRoutes = require("./routes/vw.route");
 
-// ===============================
-// 🚀 RUTAS API
-// ===============================
 app.use("/api/auditoria", auditoriaRoutes);
 app.use("/api/carrito", carritoRoutes);
 app.use("/api/categorias", categoriasRoutes);
@@ -75,30 +70,24 @@ app.use("/api/subcategorias", subcategoriasRoutes);
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/vw", vwRoutes);
 
-// ===============================
-// 🌍 FRONTEND
-// ===============================
-const frontendPath = path.join(
-  __dirname,
-  "../../paginawebFerrito/dist/paginaweb-ferrito/browser"
-);
-
+// Frontend
+const frontendPath = path.resolve(__dirname, "../../paginawebFerrito/dist/paginaweb-ferrito/browser");
 app.use(express.static(frontendPath));
-
 app.get(/^\/(?!api\/).*/, (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-// ===============================
-// ❌ ERRORES
-// ===============================
+// Errores
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });
 });
 
 app.use((err, req, res, next) => {
   console.error("Error global:", err);
-  res.status(500).json({ error: "Error interno del servidor" });
+  res.status(500).json({
+    error: "Error interno del servidor",
+    ...(process.env.NODE_ENV === "development" && { details: err.message })
+  });
 });
 
 module.exports = app;

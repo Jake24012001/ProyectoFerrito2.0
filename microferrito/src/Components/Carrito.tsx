@@ -5,13 +5,14 @@ export default function Carrito() {
   const email = localStorage.getItem("email") || "";
   const usuario_id = Number(localStorage.getItem("usuario_id"));
 
-  const { carrito, loading, cambiarCantidad, eliminar } = useCarrito(email);
+  // ✅ Pasar ambos parámetros: usuario_id y email
+  const { carrito, loading, cambiarCantidad, eliminar } = useCarrito(usuario_id, email);
 
-  if (loading) return <p>Cargando carrito...</p>;
+  if (loading) return <p>⏳ Cargando carrito...</p>;
   if (!carrito) return <p>No hay carrito activo</p>;
 
   const total = carrito.detalle.reduce(
-    (sum, item) => sum + item.precio * item.cantidad,
+    (sum: number, item: any) => sum + item.precio * item.cantidad,
     0
   );
 
@@ -23,7 +24,7 @@ export default function Carrito() {
         <p>No tienes productos en el carrito</p>
       )}
 
-      {carrito.detalle.map((item) => (
+      {carrito.detalle.map((item: any) => (
         <div className="card mb-3" key={item.id_detalle}>
           <div className="row align-items-center p-2">
             <div className="col-md-2">
