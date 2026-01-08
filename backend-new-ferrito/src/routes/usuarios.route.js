@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+// 👇 Aquí lo llamaste 'usuarioController' (SINGULAR)
 const usuarioController = require('../controllers/usuarios.controller');
 
 // 🔍 Obtener todas los usuarios
@@ -11,8 +12,7 @@ router.get('/:id_usuario', usuarioController.obtenerUsuarioId);
 // 🆕 Crear nuevo usuarios (Aquí se dispara el correo automáticamente)
 router.post('/', usuarioController.crearusuario);
 
-// ✅ VERIFICAR CUENTA (ESTA ES LA RUTA QUE FALTABA)
-// Esta ruta recibirá el email y el código para validarlos
+// ✅ VERIFICAR CUENTA (Esta ruta recibirá el email y el código)
 router.post('/verificar', usuarioController.verificarCuenta);
 
 // ✏️ Modificar usuario
@@ -25,7 +25,7 @@ router.delete('/:id_usuario', usuarioController.eliminarUsuario);
 router.get('/email/:email', usuarioController.obtenerUsuarioEmail);
 
 // 🆕 Ruta para consultar estado (GET)
-router.get('/estado/:email', usuariosController.consultarEstadoVerificacion);
+// 👇 CORREGIDO: Le quité la 's' extra para que coincida con la variable de arriba
+router.get('/estado/:email', usuarioController.consultarEstadoVerificacion);
 
-module.exports = router;
 module.exports = router;

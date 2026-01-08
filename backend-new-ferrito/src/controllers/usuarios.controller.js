@@ -188,6 +188,6 @@ module.exports = {
   eliminarUsuario,
   obtenerUsuarioId,
   obtenerUsuarioEmail,
-  verificarCuenta 
+  verificarCuenta,
   consultarEstadoVerificacion
 };

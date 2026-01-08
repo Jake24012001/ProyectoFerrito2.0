@@ -1,46 +1,60 @@
-import axios from "axios";
-import { environments } from "../environments/environments";
+import axios from 'axios';
+import { carrito } from '../interfaces/carrrito';
 
-const API_URL = `${environments.apiUrl}/carrito`;
+const API_URL = 'http://localhost:3001/api/carrito';
 
-// 🆕 Obtener o crear carrito
-export const obtenerOCrearCarrito = async (usuario_id: number, email: string) => {
-  const { data } = await axios.post(`${API_URL}/obtener-o-crear`, {
-    usuario_id,
-    email
-  });
-  return data;
+/**
+ * Obtiene el carrito del usuario o lo crea si no existe.
+ */
+export const obtenerOCrearCarrito = async (id_usuario: number): Promise<carrito> => {
+    try {
+        const response = await axios.post<carrito>(`${API_URL}/obtener-o-crear`, { 
+            usuario_id: id_usuario 
+        });
+        return response.data;
+    } catch (error: any) {
+        console.error("Error al obtener/crear carrito:", error.response?.data || error.message);
+        throw error; 
+    }
 };
 
-// 🧾 Obtener carrito completo
-export const obtenerCarritoDetalle = async (usuario_id: number, email: string) => {
-  const { data } = await axios.get(`${API_URL}/detalle`, {
-    params: { usuario_id, email }
-  });
-  return data;
+/**
+ * Crea un carrito desde cero
+ */
+export const crearCarrito = async (id_usuario: number): Promise<carrito> => {
+    try {
+        const response = await axios.post<carrito>(API_URL, { usuario_id: id_usuario });
+        return response.data;
+    } catch (error: any) {
+        console.error("Error al crear carrito:", error.response?.data || error.message);
+        throw error;
+    }
 };
 
-// ➕ Agregar producto
-export const agregarProducto = async (
-  usuario_id: number,
-  email: string,
-  producto_id: number,
-  cantidad: number
-) => {
-  return axios.post(`${API_URL}/producto`, {
-    usuario_id,
-    email,
-    producto_id,
-    cantidad
-  });
+/**
+ * 🆕 Actualiza la cantidad de un producto específico en el detalle del carrito
+ */
+export const actualizarCantidad = async (id_detalle: number, cantidad: number): Promise<any> => {
+    try {
+        const response = await axios.put(`${API_URL}/detalle/${id_detalle}`, { 
+            cantidad: cantidad 
+        });
+        return response.data;
+    } catch (error: any) {
+        console.error("Error al actualizar cantidad:", error.response?.data || error.message);
+        throw error;
+    }
 };
 
-// ✏️ Actualizar cantidad
-export const actualizarCantidad = async (id_detalle: number, cantidad: number) => {
-  return axios.put(`${API_URL}/producto/${id_detalle}`, { cantidad });
-};
-
-// ❌ Eliminar producto
-export const eliminarProducto = async (id_detalle: number) => {
-  return axios.delete(`${API_URL}/producto/${id_detalle}`);
+/**
+ * 🆕 Elimina un producto del detalle del carrito
+ */
+export const eliminarProducto = async (id_detalle: number): Promise<any> => {
+    try {
+        const response = await axios.delete(`${API_URL}/detalle/${id_detalle}`);
+        return response.data;
+    } catch (error: any) {
+        console.error("Error al eliminar producto:", error.response?.data || error.message);
+        throw error;
+    }
 };
