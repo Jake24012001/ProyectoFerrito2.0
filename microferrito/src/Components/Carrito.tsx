@@ -6,9 +6,27 @@ export default function Carrito() {
   const usuario_id = Number(localStorage.getItem("usuario_id"));
 
   // ✅ Pasar ambos parámetros: usuario_id y email
-  const { carrito, loading, cambiarCantidad, eliminar } = useCarrito(usuario_id, email);
+  const { carrito, loading, cambiarCantidad, eliminar } = useCarrito(
+    usuario_id,
+    email
+  );
 
-  if (loading) return <p>⏳ Cargando carrito...</p>;
+  if (loading) {
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+        <div
+          className="spinner-border text-primary"
+          role="status"
+          style={{ width: "3rem", height: "3rem" }}
+        >
+          <span className="visually-hidden">Cargando...</span>
+        </div>
+        <h5 className="mt-3 fw-bold text-secondary animar-pulso">
+          Preparando tu carrito...
+        </h5>
+      </div>
+    );
+  }
   if (!carrito) return <p>No hay carrito activo</p>;
 
   const total = carrito.detalle.reduce(
@@ -20,9 +38,7 @@ export default function Carrito() {
     <div className="container mt-4">
       <h2>🛒 Mi Carrito</h2>
 
-      {carrito.detalle.length === 0 && (
-        <p>No tienes productos en el carrito</p>
-      )}
+      {carrito.detalle.length === 0 && <p>No tienes productos en el carrito</p>}
 
       {carrito.detalle.map((item: any) => (
         <div className="card mb-3" key={item.id_detalle}>

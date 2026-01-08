@@ -1,28 +1,40 @@
 const carritoService = require("../services/carrito.service");
 
-// Obtener carrito por usuario
-async function obtenerCarritoUsuario(req, res) {
-  try {
-    const usuario_id = Number(req.params.usuario_id);
-    if (isNaN(usuario_id)) {
-      return res.status(400).json({ message: "ID de usuario inválido" });
-    }
-    const carrito = await carritoService.obtenerCarritoUsuario(usuario_id);
-    res.status(200).json(carrito);
-  } catch (error) {
-    res.status(500).json({ message: "Error al obtener el carrito del usuario", error: error.message });
-  }
+async function obtenerCarritoUsuario(usuario_id) {
+  const [rows] = await db.query(
+    'SELECT * FROM carrito WHERE usuario_id = ?',
+    [usuario_id]
+  );
+  return rows[0] || null;
+}
+async function crearCarrito(usuario_id) {
+  const [result] = await db.query(
+    'INSERT INTO carrito (usuario_id) VALUES (?)',
+    [usuario_id]
+  );
+
+  const [rows] = await db.query(
+    'SELECT * FROM carrito WHERE id = ?',
+    [result.insertId]
+  );
+
+  return rows[0];
 }
 
-// Obtener o crear carrito (email/usuario)
-async function obtenerOCrearCarritoPorEmail(req, res) {
-  try {
-    const { email, usuario_id } = req.body;
-    const carrito = await carritoService.obtenerOCrearCarrito(usuario_id, email);
-    res.status(200).json(carrito);
-  } catch (error) {
-    res.status(500).json({ message: "Error al obtener o crear carrito", error: error.message });
+async function obtenerOCrearCarrito(usuario_id, email) {
+  if (!usuario_id) {
+    throw new Error('usuario_id es obligatorio');
   }
+
+  // 1️⃣ buscar carrito
+  let carrito = await obtenerCarritoUsuario(usuario_id);
+
+  // 2️⃣ si NO existe → crearlo
+  if (!carrito) {
+    carrito = await crearCarrito(usuario_id);
+  }
+
+  return carrito;
 }
 
 // CRUD carrito
@@ -133,8 +145,9 @@ async function eliminarProducto(req, res) {
 
 module.exports = {
   obtenerCarritoUsuario,
-  obtenerOCrearCarritoPorEmail,
+  obtenerOCrearCarrito,
   registrarCarrito,
+  crearCarrito,
   modificarCarrito,
   eliminarCarrito,
   cerrarCarrito,

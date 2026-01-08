@@ -5,7 +5,6 @@ const carritoController = require("../controllers/carrito.controller");
 // Carrito
 router.get("/usuario/:usuario_id", carritoController.obtenerCarritoUsuario);
 router.get("/detalle", carritoController.obtenerCarrito);
-router.post("/obtener-o-crear", carritoController.obtenerOCrearCarritoPorEmail);
 router.post("/", carritoController.registrarCarrito);
 router.put("/:id_carrito", carritoController.modificarCarrito);
 router.patch("/:id_carrito/cerrar", carritoController.cerrarCarrito);
