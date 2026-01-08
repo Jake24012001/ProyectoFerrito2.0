@@ -157,6 +157,30 @@ async function verificarCuenta(req, res) {
   }
 }
 
+// 🆕 NUEVO: Verificar estado del usuario
+async function consultarEstadoVerificacion(req, res) {
+  try {
+    const { email } = req.params;
+    // Reutilizamos el servicio que ya busca por email
+    const usuario = await usuariosService.obtenerUsuarioPorEmail(email);
+
+    if (!usuario) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // Respondemos solo el estado
+    res.json({ 
+      email: usuario.email,
+      verificado: usuario.verificado, // Esto será true o false
+      rol_id: usuario.rol_id 
+    });
+
+  } catch (error) {
+    console.error('Error al consultar estado:', error);
+    res.status(500).json({ message: 'Error interno' });
+  }
+}
+
 module.exports = {
   obtenerusuario,
   crearusuario,
@@ -165,4 +189,5 @@ module.exports = {
   obtenerUsuarioId,
   obtenerUsuarioEmail,
   verificarCuenta 
+  consultarEstadoVerificacion
 };

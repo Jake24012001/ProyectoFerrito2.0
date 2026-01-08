@@ -24,4 +24,8 @@ router.delete('/:id_usuario', usuarioController.eliminarUsuario);
 // 🔍 Obtener usuario por email
 router.get('/email/:email', usuarioController.obtenerUsuarioEmail);
 
+// 🆕 Ruta para consultar estado (GET)
+router.get('/estado/:email', usuariosController.consultarEstadoVerificacion);
+
+module.exports = router;
 module.exports = router;
