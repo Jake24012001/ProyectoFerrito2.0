@@ -84,9 +84,36 @@ async function eliminarProducto(req, res) {
   }
 }
 
+async function obtenerocrearcarrito(req, res) {
+  try {
+    // 1. Extraemos el usuario_id de los parámetros de la URL
+    const usuario_id = Number(req.params.usuario_id);
+    
+    // 2. Extraemos el email del cuerpo de la petición (POST)
+    // Es importante que el frontend envíe { "email": "..." } en el body
+    const { email } = req.body;
+
+    // 3. LLAMADA AL SERVICE: Guardamos el objeto retornado en una variable
+    // Pasamos ambos argumentos como requiere tu función de Service
+    const carrito = await carritoService.obtenerOCrearCarrito(usuario_id, email);
+
+    // 4. RESPUESTA: Enviamos el objeto carrito completo al frontend
+    // Esto es vital para que React pueda usar carrito.id_carrito, etc.
+    res.status(200).json(carrito);
+
+  } catch (error) {
+    console.error("Error en obtenerocrearcarrito controller:", error);
+    res.status(500).json({ 
+      error: "No se pudo procesar el carrito",
+      details: error.message 
+    });
+  }
+}
+
 module.exports = {
   obtenerCarritoUsuario,
   obtenerCarrito,
+  obtenerocrearcarrito,
   cerrarCarrito,
   agregarProducto,
   actualizarCantidad,
