@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import html2pdf from "html2pdf.js";
-import { getFacturaById } from "../services/facturaService";
+import { getFacturaById } from "../services/facturaServices";
 
 const Factura: React.FC = () => {
   const facturaRef = useRef<HTMLDivElement>(null);
