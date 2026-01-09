@@ -1,16 +1,5 @@
 const pool = require("../config/db");
 
-//Obtener Factura
-async function ObtenerFactura() {
-  const query = `
-    SELECT * FROM factura
-    ORDER BY fecha_creacion DESC;
-    `;
-
-  const { rows } = await pool.query(query);
-  return rows;
-}
-
 // 🔍 Obtener facturas por usuario
 async function obtenerFacturaPorUsuario(usuario_id) {
   const query = `
@@ -76,7 +65,6 @@ async function EliminarFactura(id_factura) {
 }
 
 module.exports = {
-  ObtenerFactura,
   obtenerFacturaPorUsuario,
   CrearFactura,
   ModificarFactura,

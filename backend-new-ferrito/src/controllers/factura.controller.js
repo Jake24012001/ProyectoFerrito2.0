@@ -1,87 +1,73 @@
-const facturaService = require('../services/factura.service');
+const facturaService = require("../services/factura.service");
 
-// 🔍 Obtener todas las facturas
-async function obtenerFacturas(req, res) {
-  try {
-    const facturas = await facturaService.obtenerFacturas();
-    res.status(200).json(facturas);
-  } catch (error) {
-    console.error('Error al obtener facturas:', error.message);
-    res.status(500).json({ message: 'Error al obtener facturas' });
-  }
-}
-
-// 🔍 Obtener facturas por usuario
-async function obtenerFacturasPorUsuario(req, res) {
-  try {
-    const usuario_id = parseInt(req.params.id);
-    const facturas = await facturaService.obtenerFacturasPorUsuario(usuario_id);
-    res.status(200).json(facturas);
-  } catch (error) {
-    console.error('Error al obtener facturas por usuario:', error.message);
-    res.status(500).json({ message: 'Error al obtener facturas por usuario' });
-  }
-}
 
 async function crearFactura(req, res) {
   try {
     const { usuario_id, total } = req.body;
 
+    if (!usuario_id || !total) {
+      return res.status(400).json({
+        message: "usuario_id y total son requeridos"
+      });
+    }
+
+    // 🔹 Crear factura directamente
     const nuevaFactura = await facturaService.crearFactura({
       usuario_id,
-      total,
+      total
     });
 
-    res.status(201).json(nuevaFactura);
+    // 🔹 RESPUESTA CLARA (evita loading infinito)
+    return res.status(201).json(nuevaFactura);
+
   } catch (error) {
-    console.error('Error al crear factura:', error.message);
-    res.status(500).json({ message: 'Error al crear factura' });
+    console.error("Error al crear factura:", error);
+    return res.status(500).json({
+      message: "Error al crear factura",
+      error: error.message
+    });
   }
 }
 
+async function obtenerFacturasPorUsuario(req, res) {
+  try {
+    const { id } = req.params; // Viene de /factura/usuario/:id
+    const facturas = await facturaService.obtenerFacturasPorUsuario(id);
+    return res.status(200).json(facturas);
+  } catch (error) {
+    console.error("Error al obtener facturas por id:", error);
+    return res
+      .status(500)
+      .json({ message: "Error al obtener facturas por id" });
+  }
+}
 
-// ✏️ Modificar factura
 async function modificarFactura(req, res) {
   try {
-    const id_factura = parseInt(req.params.id_factura);
-    const {
-      usuario_id,
-      fecha_creacion,
-      total,
-      estado
-    } = req.body;
-
-    const facturaActualizada = await facturaService.modificarFactura({
-      id_factura,
-      usuario_id,
-      fecha_creacion,
-      total,
-      estado
-    });
-
-    res.status(200).json(facturaActualizada);
+    const { id } = req.params;
+    const datosModificados = { id_factura: id, ...req.body };
+    const resultado = await facturaService.modificarFactura(datosModificados);
+    return res.status(200).json(resultado);
   } catch (error) {
-    console.error('Error al modificar factura:', error.message);
-    res.status(500).json({ message: 'Error al modificar factura' });
+    console.error("Error al modificar facturas:", error);
+    return res.status(500).json({ message: "Error al modificar facturas" });
   }
 }
 
-// ❌ Eliminar factura
-async function eliminarFactura(req, res) {
+async function eliminarFactura(req) {
   try {
-    const id_factura = parseInt(req.params.id_factura);
-    const resultado = await facturaService.eliminarFactura(id_factura);
-    res.status(200).json({ message: 'Factura eliminada correctamente', resultado });
+    const { usuario_id } = req.params;
+    const resultado = await facturaService.eliminarFactura(usuario_id);
+    return res.status(200).json({ message: "Factura eliminada", data: resultado });
   } catch (error) {
-    console.error('Error al eliminar factura:', error.message);
-    res.status(500).json({ message: 'Error al eliminar factura' });
+    console.error("Error al eliminar facturas:", error);
+    return res.status(500).json({ message: "Error al eliminar facturas" });
   }
 }
 
 module.exports = {
-  obtenerFacturas,
-  obtenerFacturasPorUsuario,
   crearFactura,
+  obtenerFacturasPorUsuario,
   modificarFactura,
-  eliminarFactura
+  eliminarFactura,
 };

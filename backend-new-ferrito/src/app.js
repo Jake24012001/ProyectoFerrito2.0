@@ -23,8 +23,16 @@ app.use(
 );
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:4200",
-  optionsSuccessStatus: 200
+  origin: function(origin, callback) {
+    const whitelist = (process.env.CORS_ORIGIN || "http://localhost:4200").split(",");
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  optionsSuccessStatus: 200,
+  credentials: true
 }));
 app.use(express.json());
 app.use(morgan("combined"));

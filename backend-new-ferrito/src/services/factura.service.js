@@ -1,8 +1,6 @@
 const facturaModel = require('../models/factura.model');
 
-async function obtenerFacturas() {
-  return await facturaModel.ObtenerFactura();
-}
+
 
 async function obtenerFacturasPorUsuario(usuario_id) {
   return await facturaModel.obtenerFacturaPorUsuario(usuario_id);
@@ -26,7 +24,6 @@ async function eliminarFactura(id_factura) {
 }
 
 module.exports = {
-  obtenerFacturas,
   obtenerFacturasPorUsuario,
   crearFactura,
   modificarFactura,

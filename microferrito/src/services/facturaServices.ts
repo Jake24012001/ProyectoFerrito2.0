@@ -18,7 +18,7 @@ export const getAllFacturas = async (): Promise<factura[]> => {
 };
 
 // Obtener una factura por ID
-export const getFacturaById = async (id: number): Promise<factura> => {
+/*export const getFacturaById = async (id: number): Promise<factura> => {
   try {
     const response = await axios.get<factura>(`${FACTURAS_ENDPOINT}/${id}`);
     return response.data;
@@ -26,6 +26,17 @@ export const getFacturaById = async (id: number): Promise<factura> => {
     console.error(`Error al obtener factura con ID ${id}:`, error);
     throw error;
   }
+};*/
+// 🔹 Obtener factura por ID
+export const getFacturaById = async (id: number): Promise<factura> => {
+  const response = await axios.get(`${FACTURAS_ENDPOINT}/${id}`);
+  return response.data;
+};
+export const getFacturasByUsuario = async (usuario_id: number) => {
+  const response = await axios.get(
+    `${FACTURAS_ENDPOINT}/usuario/${usuario_id}`
+  );
+  return response.data; // ← array
 };
 
 // Crear una nueva factura
@@ -59,13 +70,14 @@ export const deleteFactura = async (id: number): Promise<void> => {
     throw error;
   }
 };
-export const procederPago = async (usuario_id: number, total: number) => {
-  const response = await axios.post(`${FACTURAS_ENDPOINT}`, {
-    usuario_id,
-    total,
+// 🔹 Crear factura (NO envía total, lo hace backend)
+export const procederPago = async (usuario_id: number): Promise<factura> => {
+  const response = await axios.post(`${FACTURAS_ENDPOINT}/crear`, {
+    usuario_id
   });
-
-  return response.data; // 👈 id_factura viene aquí
+  return response.data;
 };
+
+ 
 
   

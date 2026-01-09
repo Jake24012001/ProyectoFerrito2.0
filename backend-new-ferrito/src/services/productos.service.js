@@ -14,7 +14,6 @@ async function obtenerProductoPorId(id_producto) {
   return await productosmodel.obtenerProductoporId(id_producto);
 }
 
-
 // 🆕 Crear nueva productos
 async function crearproductos(data) {
   return await productosmodel.Crearproductos(data);

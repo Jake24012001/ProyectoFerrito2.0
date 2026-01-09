@@ -22,6 +22,16 @@ async function obtenerDetallesPorCarrito(carrito_id) {
   return rows;
 }
 
+// 🎯 BUSCAR PRODUCTO ESPECÍFICO EN UN CARRITO (Necesario para el controlador)
+async function buscarProductoEnCarrito(carrito_id, producto_id) {
+  const query = `
+    SELECT * FROM detallecarrito 
+    WHERE carrito_id = $1 AND producto_id = $2 AND estado = 'A';
+  `;
+  const { rows } = await pool.query(query, [carrito_id, producto_id]);
+  return rows[0]; // Retorna el detalle si ya existe
+}
+
 // 🆕 Crear nuevo detalle
 async function crearDetalle({ carrito_id, producto_id, cantidad, fecha_creacion, estado }) {
   const query = `
@@ -34,24 +44,19 @@ async function crearDetalle({ carrito_id, producto_id, cantidad, fecha_creacion,
   return rows[0];
 }
 
-// ✏️ Modificar detalle
-async function modificarDetalle({ id_detalle, carrito_id, producto_id, cantidad, fecha_creacion, estado }) {
+// ✏️ Modificar detalle / Actualizar Cantidad
+async function actualizarCantidad(id_detalle, nuevaCantidad) {
   const query = `
     UPDATE detallecarrito
-    SET carrito_id = $1,
-        producto_id = $2,
-        cantidad = $3,
-        fecha_creacion = $4,
-        estado = $5
-    WHERE id_detalle = $6
+    SET cantidad = $1
+    WHERE id_detalle = $2
     RETURNING *;
   `;
-  const values = [carrito_id, producto_id, cantidad, fecha_creacion, estado, id_detalle];
-  const { rows } = await pool.query(query, values);
+  const { rows } = await pool.query(query, [nuevaCantidad, id_detalle]);
   return rows[0];
 }
 
-// ❌ Eliminar detalle (física o lógica)
+// ❌ Eliminar detalle
 async function eliminarDetalle(id_detalle) {
   const query = `
     DELETE FROM detallecarrito
@@ -65,7 +70,8 @@ async function eliminarDetalle(id_detalle) {
 module.exports = {
   obtenerDetalles,
   obtenerDetallesPorCarrito,
+  buscarProductoEnCarrito, // exportar
   crearDetalle,
-  modificarDetalle,
+  actualizarCantidad, // exportar
   eliminarDetalle
 };

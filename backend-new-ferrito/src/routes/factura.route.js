@@ -2,14 +2,11 @@ const express = require('express');
 const router = express.Router();
 const facturaController = require('../controllers/factura.controller');
 
-//  Obtener todas las facturas
-router.get('/', facturaController.obtenerFacturas);
-
 //  Obtener factura por usuario
 router.get('/usuario/:id', facturaController.obtenerFacturasPorUsuario);
 
 //  Crear nueva factura
-router.post('/', facturaController.crearFactura);
+router.post('/crear', facturaController.crearFactura);
 
 //  Modificar factura
 router.put('/:id_factura', facturaController.modificarFactura);

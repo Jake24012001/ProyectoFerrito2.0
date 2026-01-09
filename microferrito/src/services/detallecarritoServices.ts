@@ -1,61 +1,68 @@
 import axios from 'axios';
-import { detallecarrito } from '../interfaces/detallecarrito';
 
+// URL base configurada para tu Backend 2 (Puerto 3001)
+const API_URL = 'http://localhost:3001/api'; 
+// Ajustamos el endpoint para que coincida con tu router: router.get("/carrito/:id", ...)
+const DETALLE_CARRITO_ENDPOINT = `${API_URL}/detallecarrito`; 
 
-// URL base de la API para el detalle de carrito
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:30001/api';
-const DETALLE_CARRITO_ENDPOINT = `${API_URL}/detallecarrito`;
-
-// Obtener todos los detalles de carrito
-export const getAllDetalleCarrito = async (): Promise<detallecarrito[]> => {
+/**
+ * OBTIENE EL DETALLE POR ID DE CARRITO (Ruta específica solicitada)
+ * Usa: router.get("/carrito/:id", ...)
+ * @param idCarrito El ID del carrito (ej. 35)
+ */
+export const obtenerDetallesPorCarrito = async (idCarrito: number): Promise<any[]> => {
   try {
-    const response = await axios.get<detallecarrito[]>(DETALLE_CARRITO_ENDPOINT);
-    return response.data;
+    // La URL final será: http://localhost:3001/api/productos/carrito/35
+    const response = await axios.get<any[]>(`${DETALLE_CARRITO_ENDPOINT}/carrito/${idCarrito}`);
+    
+    // Verificamos si la respuesta es un array directo o viene envuelta
+    const data = Array.isArray(response.data) ? response.data : (response.data as any).detalles || [];
+    
+    console.log("📦 Datos recibidos del detalle:", data);
+    return data;
   } catch (error) {
-    console.error('Error al obtener detalles de carrito:', error);
+    console.error(`Error al obtener detalles del carrito ${idCarrito}:`, error);
     throw error;
   }
 };
 
-// Obtener un detalle de carrito por ID
-export const getDetalleCarritoById = async (id: number): Promise<detallecarrito> => {
+/**
+ * AGREGAR PRODUCTO (Equivalente a crearDetalle)
+ * Usa: router.post("/agregar", ...)
+ */
+export const agregarProductoAlCarrito = async (datos: { carrito_id: number, producto_id: number, cantidad: number }): Promise<any> => {
   try {
-    const response = await axios.get<detallecarrito>(`${DETALLE_CARRITO_ENDPOINT}/${id}`);
+    const response = await axios.post(`${DETALLE_CARRITO_ENDPOINT}/agregar`, datos);
     return response.data;
   } catch (error) {
-    console.error(`Error al obtener detalle de carrito con ID ${id}:`, error);
+    console.error('Error al agregar producto:', error);
     throw error;
   }
 };
 
-// Crear un nuevo detalle de carrito
-export const createDetalleCarrito = async (detalle: Omit<detallecarrito, 'id_detalle_carrito'>): Promise<detallecarrito> => {
+/**
+ * ACTUALIZAR CANTIDAD
+ * @param id_detalle El ID de la tabla detalle_carrito
+ */
+export const updateCantidadDetalle = async (id_detalle: number, cantidad: number): Promise<any> => {
   try {
-    const response = await axios.post<detallecarrito>(DETALLE_CARRITO_ENDPOINT, detalle);
+    // Ajusta la ruta según tu router para actualizar (ej. /detalle/:id)
+    const response = await axios.put(`${DETALLE_CARRITO_ENDPOINT}/detalle/${id_detalle}`, { cantidad });
     return response.data;
   } catch (error) {
-    console.error('Error al crear detalle de carrito:', error);
+    console.error(`Error al actualizar detalle ${id_detalle}:`, error);
     throw error;
   }
 };
 
-// Actualizar un detalle de carrito existente
-export const updateDetalleCarrito = async (id: number, detalle: Partial<Omit<detallecarrito, 'id_detalle_carrito' | 'id_carrito' | 'id_producto'>>): Promise<detallecarrito> => {
+/**
+ * ELIMINAR PRODUCTO DEL DETALLE
+ */
+export const deleteDetalleCarrito = async (id_detalle: number): Promise<void> => {
   try {
-    const response = await axios.put<detallecarrito>(`${DETALLE_CARRITO_ENDPOINT}/${id}`, detalle);
-    return response.data;
+    await axios.delete(`${DETALLE_CARRITO_ENDPOINT}/${id_detalle}`);
   } catch (error) {
-    console.error(`Error al actualizar detalle de carrito con ID ${id}:`, error);
-    throw error;
-  }
-};
-
-// Eliminar un detalle de carrito
-export const deleteDetalleCarrito = async (id: number): Promise<void> => {
-  try {
-    await axios.delete(`${DETALLE_CARRITO_ENDPOINT}/${id}`);
-  } catch (error) {
-    console.error(`Error al eliminar detalle de carrito con ID ${id}:`, error);
+    console.error(`Error al eliminar detalle ${id_detalle}:`, error);
     throw error;
   }
 };

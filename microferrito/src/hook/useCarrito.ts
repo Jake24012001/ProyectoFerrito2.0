@@ -1,75 +1,57 @@
 import { useEffect, useState, useCallback } from "react";
-import {
-  obtenerOCrearCarrito,
-  actualizarCantidad as actualizarCantidadService,
-  eliminarProducto as eliminarProductoService,
-} from "../services/carritoServices";
-// Importamos ambas para asegurar que el tipado sea exacto
-import { carrito } from "../interfaces/carrrito"; 
+import { obtenerOCrearCarrito, actualizarCantidad, eliminarProducto } from "../services/carritoServices";
 
-export function useCarrito(usuario_id: number | null) {
-  // ✅ El estado ahora sabe que 'carrito' tiene una lista de 'detalle'
-  const [carrito, setCarrito] = useState<carrito | null>(null);
+export function useCarrito(id_recibido: any) {
+  const [carrito, setCarrito] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const procesarIdUsuario = useCallback(() => {
+    if (!id_recibido) return null;
+    if (typeof id_recibido === 'object') return Number(id_recibido.backend2 || id_recibido.id_usuario);
+    if (typeof id_recibido === 'string' && id_recibido.includes('{')) {
+      try {
+        const parsed = JSON.parse(id_recibido);
+        return Number(parsed.backend2 || parsed.id_usuario);
+      } catch { return null; }
+    }
+    return isNaN(Number(id_recibido)) ? null : Number(id_recibido);
+  }, [id_recibido]);
+
   const cargarCarrito = useCallback(async () => {
-    // Validación de seguridad: si no hay usuario, no pedimos nada
-    if (!usuario_id || isNaN(usuario_id)) {
-        setLoading(false);
-        return;
-    };
+    const userId = procesarIdUsuario();
+    if (!userId) { setLoading(false); return; }
 
     try {
       setLoading(true);
-      setError(null);
-      
-      // La API devuelve el objeto carrito que ya contiene el array 'detalle'
-      const data = await obtenerOCrearCarrito(usuario_id);
+      const data = await obtenerOCrearCarrito(userId);
+      console.log("📦 Carrito cargado correctamente:", data);
       setCarrito(data);
     } catch (err: any) {
-      console.error("❌ Error cargando carrito:", err);
-      setError("No se pudo cargar el carrito.");
-      setCarrito(null);
+      console.error("❌ Error al cargar carrito:", err);
+      setError(err.response?.status === 404 ? "Endpoint no encontrado en el servidor" : "Error al cargar el carrito");
     } finally {
       setLoading(false);
     }
-  }, [usuario_id]);
+  }, [procesarIdUsuario]);
 
-  useEffect(() => {
-    cargarCarrito();
-  }, [cargarCarrito]);
-
-  // ✏️ Cambiar cantidad
-  const cambiarCantidad = async (id_detalle: number, cantidad: number) => {
-    if (cantidad < 1) return; // Validación mínima en el cliente
-    try {
-      await actualizarCantidadService(id_detalle, cantidad);
-      await cargarCarrito(); // 🔄 Re-fresca la data para ver el nuevo subtotal y total
-    } catch (err) {
-      console.error("❌ Error actualizando cantidad:", err);
-    }
-  };
-
-  // ❌ Eliminar producto
-  const eliminar = async (id_detalle: number) => {
-    if (!window.confirm("¿Estás seguro de eliminar este producto?")) return;
-
-    try {
-      await eliminarProductoService(id_detalle);
-      await cargarCarrito(); // 🔄 Re-fresca para que el producto desaparezca de la lista
-    } catch (err) {
-      console.error("❌ Error eliminando producto:", err);
-    }
-  };
+  useEffect(() => { cargarCarrito(); }, [cargarCarrito]);
 
   return {
-    carrito,          // Objeto con: id_carrito, usuario_id, detalle[]
-    detalles: carrito?.detalle || [], // Acceso directo opcional para facilitar el .map()
+    carrito,
+    // Busca la lista sin importar cómo la nombre la base de datos (plural, singular o alias)
+    detalles: carrito?.detalles || carrito?.detalle_carritos || carrito?.DetalleCarritos || carrito?.detalle || [],
     loading,
     error,
-    cambiarCantidad,
-    eliminar,
-    refrescar: cargarCarrito,
+    cambiarCantidad: async (id: number, cant: number) => {
+      await actualizarCantidad(id, cant);
+      await cargarCarrito();
+    },
+    eliminar: async (id: number) => {
+      if (window.confirm("¿Eliminar producto?")) {
+        await eliminarProducto(id);
+        await cargarCarrito();
+      }
+    }
   };
 }

@@ -77,3 +77,13 @@ export const deleteProducto = async (id_producto: number): Promise<void> => {
     throw new Error(`Fallo al eliminar el producto ${id_producto}.`);
   }
 };
+
+export const getProductoById = async (id_producto: number) => {
+  try {
+    const response = await axios.get(`http://localhost:3001/api/productos/${id_producto}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error al obtener producto ${id_producto}:`, error);
+    return null;
+  }
+};

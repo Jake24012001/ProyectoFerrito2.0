@@ -1,6 +1,5 @@
 const carritoService = require("../services/carrito.service");
 
-// ==================== CARRITO ====================
 async function obtenerCarritoUsuario(req, res) {
   try {
     const usuario_id = Number(req.params.usuario_id);
@@ -84,7 +83,7 @@ async function eliminarProducto(req, res) {
   }
 }
 
-async function obtenerocrearcarrito(req, res) {
+/*async function obtenerocrearcarrito(req, res) {
   try {
     // 1. Extraemos el usuario_id de los parámetros de la URL
     const usuario_id = Number(req.params.usuario_id);
@@ -106,6 +105,35 @@ async function obtenerocrearcarrito(req, res) {
     res.status(500).json({ 
       error: "No se pudo procesar el carrito",
       details: error.message 
+    });
+  }
+}*/
+
+async function obtenerocrearcarrito(req, res) {
+  try {
+    const usuario_id = Number(req.params.usuario_id);
+
+    // 🟢 PROTECCIÓN TOTAL
+    const email = req.body && req.body.email ? req.body.email : null;
+
+    if (!usuario_id && !email) {
+      return res.status(400).json({
+        message: "usuario_id o email es requerido"
+      });
+    }
+
+    const carrito = await carritoService.obtenerOCrearCarrito(
+      usuario_id,
+      email
+    );
+
+    return res.status(200).json(carrito);
+
+  } catch (error) {
+    console.error("Error en obtenerocrearcarrito controller:", error);
+    return res.status(500).json({
+      error: "No se pudo procesar el carrito",
+      details: error.message
     });
   }
 }
